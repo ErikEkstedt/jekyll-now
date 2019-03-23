@@ -30,7 +30,7 @@ permalink: /interesting/
 
 ---
 ## Loic Matthey: Learning and leveraging disentangled representations for RL (2018)
-<iframe class="video" src="https://www.youtube.com/watch?v=yV698Fi2XzE&index=6&list=PLWtpIift91Avv87L8iR_iYL3jinE6h9h0&t=1096s" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe class="video" src="https://www.youtube.com/embed/yV698Fi2XzE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
 ## A New Kind of Science, Stephen Wolfram (2003)
