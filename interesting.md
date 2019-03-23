@@ -29,9 +29,7 @@ permalink: /interesting/
 <iframe class="video" src="https://www.youtube.com/embed/-Y7PLaxXUrs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
-
 ## Loic Matthey: Learning and leveraging disentangled representations for RL (2018)
-
 <iframe class="video" src="https://www.youtube.com/embed/yV698Fi2XzE?list=PLWtpIift91Avv87L8iR_iYL3jinE6h9h0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---
