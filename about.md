@@ -4,12 +4,9 @@ title: About
 permalink: /about/
 ---
 
-Some information about you!
-
-### More Information
-
-A place to include any other types of information that you'd like to include about yourself.
+A person interested in and continuously thinking about AI, perception, human thoughts and
+the like.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[erikekst@kth.se](mailto:erikekst@kth.se)

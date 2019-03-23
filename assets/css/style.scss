@@ -18,16 +18,31 @@ html {
 }
 
 body {
-	background: $white;
+	// background: $white;
+	background-image: url(/images/milky_way.jpg);
   font: 18px/1.4 $helvetica;
-  color: $darkGray;
+  color: $black;
+}
+
+// Used in _includes/navigation.html to highlight current (navigation) page
+.current {
+  font-weight: bold;
 }
 
 .container {
   margin: 0 auto;
-  max-width: 740px;
+  max-width: 1024px;
   padding: 0 10px;
   width: 100%;
+  border-radius: 5px;
+  background-color: rgba(250, 250, 250, 0.9)
+}
+
+.centerImg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -273,14 +288,17 @@ nav {
 
 .wrapper-footer {
   margin-top: 50px;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-  background-color: $lightGray;
+  // border-top: 1px solid #ddd;
+  // border-bottom: 1px solid #ddd;
+  // background-color: $lightGray;
+  // background-color: rgba(20, 20, 20, 1)
 }
 
 footer {
-  padding: 20px 0;
+  margin: 0 auto;
+  max-width: 740px;
   text-align: center;
+  // background-color: rgba(20, 20, 20, 0.6)
 }
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
