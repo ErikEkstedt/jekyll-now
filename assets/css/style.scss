@@ -45,6 +45,14 @@ body {
   width: 50%;
 }
 
+.video {
+  display: block;
+  width: 480px;
+  height: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: $helveticaNeue;
   color: $darkerGray;
@@ -278,6 +286,7 @@ nav {
 
   .comments {
     margin-top: 10px;
+    margin-bottom: 10px;
   }
 
   .read-more {
@@ -288,6 +297,7 @@ nav {
 
 .wrapper-footer {
   margin-top: 50px;
+  // margin-bottom: 50px;
   // border-top: 1px solid #ddd;
   // border-bottom: 1px solid #ddd;
   // background-color: $lightGray;
