@@ -1,6 +1,6 @@
-- name: Blog
+- name: Notes
   link: /
-- name: About
-  link: /about/
 - name: Interesting
   link: /interesting/
+- name: About
+  link: /about/
