@@ -35,7 +35,9 @@ body {
   padding: 0 10px;
   width: 100%;
   border-radius: 5px;
-  background-color: rgba(215, 215, 215, 0.9)
+  // background-color: rgba(215, 215, 215, 0.9)
+  // background-color: rgba(137, 137, 137, 0.95)  // change by me
+  background-color: rgba(180, 180, 180, 0.95)  // change by me
 }
 
 .centerImg {
@@ -55,13 +57,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $helveticaNeue;
-  color: $darkerGray;
+  color: #13151b;
   font-weight: bold;
-
   line-height: 1.7;
   margin: 1em 0 15px;
   padding: 0;
-
   @include mobile {
     line-height: 1.4;
   }
@@ -69,9 +69,6 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
   font-size: 30px;
-  a {
-    color: inherit;
-  }
 }
 
 h2 {
@@ -84,7 +81,6 @@ h3 {
 
 h4 {
   font-size: 18px;
-  color: $gray;
 }
 
 p {
@@ -293,6 +289,18 @@ nav {
     text-transform: uppercase;
     font-size: 15px;
   }
+}
+
+
+// Table added by me
+td, th {
+  border: 1px solid #a9a9a9;
+  text-align: left;
+  padding: 8px;
+}
+
+tr {
+  background-color: #c9c9c9;
 }
 
 .wrapper-footer {
