@@ -1,0 +1,70 @@
+---
+layout: post
+author: Erik
+excerpt_separator: <!--more-->
+---
+
+
+- [Distill: Building Blocks of Interpretabilitu](https://distill.pub/2018/building-blocks/)
+- [Distill: Memorization in RNNs](https://distill.pub/2019/memorization-in-rnns/)
+- [Distill: Differentiable Parameterizations](https://distill.pub/2018/differentiable-parameterizations/)
+
+
+# Interpretation
+
+How do we know what the model cares about? What are the relevant features to focus on? Are
+all equally important? Is there some modalities that does not contribute to the outcome?
+
+<!--more-->
+
+During training we optimize a value function and a common case is to minimize the model
+outputs and the correct outputs, i.e minimize the error. During error minimization we
+guess an output, calculate the error, and do backpropogation. This backpropogation is to
+take the partial derivatives of the error with respect to the weights we optimize. After
+training is complete we may still use this same approach to inspect the output of the
+model. Instead of taking the derivative of the error we directly calculate the derivative
+of the output. This means that instead of getting a value in how much any particular
+weight attributed to the error we get a value for how much it attributed to the output.
+However, it is not perfectly correct to state it this way but rather we get the partial
+derivative \(( \frac{dW}{dO}  \)) where \(( dW, dO\)) means a how much a small change in
+the weight yields a change in the output. I.e how sensitive the output is to the
+particular weights of interest with regard to the current output. A value of 0 would
+indicate that this weight does not change the output at all, however the values going
+through this weight is it has no effect on the output. A larger value would indicate that
+the values going through this point will change the output to larger extent.
+
+Given this we may calculate the gradient at each step of prediction, look at particular
+areas of our model space, and investigate where the largest attribution is comming from.
+For example we could make the input space part of our graph and ask how much a change in
+the input values would correlate to a change in output. Parts in the input space that
+effects the output to a larger extent may be view as more valuable than the parts with
+lower effect.
+
+The absolute meaning of a particular value seems hard to know and a first step could be to
+look at any isolated modality (composed of more than one dimension) and see the relative
+importance for each dimension of that particular modalitiy.
+
+As an example lets think about the Mel Spectrogram. In our experiments we used an 80
+channel mel spectrogram meaning we have 80 different dimension for any moment in time. We
+calculate the gradient \(( \frac{dMel_i}{dO} \)) and normalize it by the total gradient
+\(( \sum_{i=0}^{N_{mel}}\frac{dMel_i}{dO} \)). This would give us the relative importance
+of each dimension of the mel spectrogram modality. This is good because the gradient will
+be dependent on the actual value of the input and if we compare inputs with vastly
+different domains the contribution is not clear (multiply by the input value?).
+
+
+![Sample image of mel spectrogram gradient]()
+
+
+## Going Further
+
+Given that we may have some insight into the relative importance of some inputs we may try
+to see how important each modality is in comparison with the other. One way to do this
+could be to choose junction points in the model space, points where multiple modalities
+are combined, such as where the words, prosody and acoustic information is combined. Given
+a junction of this sort we may calculate the total gradient before the junction (closer to
+the output space) sum the gradient flowing into the different modality pathways and
+compare.
+
+
+![Sample image of multi modality gradient flows]()
