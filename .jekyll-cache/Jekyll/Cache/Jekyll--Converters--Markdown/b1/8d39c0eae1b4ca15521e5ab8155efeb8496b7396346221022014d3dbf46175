@@ -1,0 +1,11 @@
+I"<p>A semi-supervised approach to learn conversational organization, or how to manage
+turn-taking, when to speak and when to listen, is to learn to predict the
+future voice activity for each speaker during a conversation.</p>
+
+<p>A perfect model, which during any time in a conversation, could predict the
+future voice activity for both speaker would be able to have a fluent
+conversation (given that it is also capable of knowing what to say). It would
+know when a person is speaking and the likelihood of when that utterance is
+done.</p>
+
+:ET

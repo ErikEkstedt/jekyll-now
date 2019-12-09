@@ -1,0 +1,18 @@
+I"÷<p>Given that we have a sufficiently capable model for turn-taking in open ended, casual
+conversation, can we train that model on particular setups to improve the specific
+capability on that task?</p>
+
+<p>One important aspect of this work is to (make better) robots and their
+turntaking behavior. A common approach to turn-taking in robots has been to
+listen to audio, determine if the user is speaking, after the user stops
+speaking wait for a certain duration of time and if the user does not speak
+during that time initiate an utterance. This is a very simple approach and often
+lead to feelings of uncertainties about if the robot actually heard what the
+user said. On top of this it could lead to both robot and users starts talking
+at about the same time, a bad conversational organization moment.</p>
+
+<p>What if we could train our turn-taking model on human-human dialog and then
+transfer it to robot-human dialogs. Could we get a policy that would be more
+fluid and take the turns mode appropriately?</p>
+
+:ET

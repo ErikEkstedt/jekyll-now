@@ -1,0 +1,21 @@
+I"{<p>The datasets required for this particual problem are audio, (preferably (timing) transcribed), with two or more speakers. For the purpose of this work we focus on diadic conversations, meaning a dialog, meaning two humans conversing.</p>
+
+<!--more-->
+
+<p>There are a few datasets out there</p>
+<ul>
+  <li>Switchboard
+    <ul>
+      <li>Everyday, casual phone conversations</li>
+    </ul>
+  </li>
+  <li>Maptask
+    <ul>
+      <li>Task specific dialog from playing a “maptask” game</li>
+      <li>A ‘guide’ guides the ‘follower’ through a map with partially overlapping available
+information</li>
+    </ul>
+  </li>
+</ul>
+
+:ET

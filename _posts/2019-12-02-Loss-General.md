@@ -11,6 +11,8 @@ Sources
 - [BCE](https://towardsdatascience.com/understanding-binary-cross-entropy-log-loss-a-visual-explanation-a3ac6025181a)
 - [PyTorch](https://pytorch.org/docs/stable/nn.html#loss-functions)
 
+<!--more-->
+
 # General
 
 ## Entropy, H

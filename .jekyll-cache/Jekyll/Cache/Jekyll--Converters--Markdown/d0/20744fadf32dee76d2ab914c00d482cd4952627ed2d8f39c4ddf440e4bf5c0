@@ -1,0 +1,115 @@
+I"�<h2 id="data-real-dataset-model-and-output">Data: Real, dataset, model and output</h2>
+
+<p>What kinds of data are we going to work with? How to process this data? What do we wish to achieve</p>
+
+<!--more-->
+
+<h1 id="data">Data</h1>
+
+<h2 id="input-space">Input space</h2>
+
+<h2 id="acoustic-information">Acoustic Information</h2>
+
+<p>Spectrogram Fourier transform of 1D audio (intensity) signal -&gt; 2D frequency/power space.</p>
+
+<h3 id="mel-spectrogram">Mel-Spectrogram</h3>
+
+<p>A melspectrogram is a constructed from a frequency power spectrogram from an audio signal mapped onto a mel space.
+The mel mapping maps frequencies into bins more akin to how humans seem to experience audio.</p>
+
+<p>A regular power spectrogram over 3 seconds of spoken audio</p>
+
+<p>-&gt; mapped onto the mel space</p>
+
+<h4 id="spectrum">Spectrum</h4>
+
+<p>The power for each frequency band in a single frame is a spectrum</p>
+
+<p>We note that the lower frequencies are more distinguishable in the mel space than in the power spectrogram. Important frequencies for speech such as the
+fundamental frequency F0 and its harmonics F1, F2 are given more importance in the mel space. The higher frequencies (noise) is less prominent.</p>
+
+<p>In Deep Learning it is very common to process melspectrograms instead of the original power specotrogram.</p>
+
+<h2 id="example">Example</h2>
+
+<p><em>“Nobody understands quantum mechanics”</em> - Richard Feynman 1964</p>
+
+<p>Parameters</p>
+<ul>
+  <li>step time: 10ms (step length of fourier transform)</li>
+  <li>window time: 50ms (window size of fourier transform)</li>
+</ul>
+
+<div class="row">
+  <div class="column">
+    <h3> Waveform </h3>
+  </div>
+  <div class="column">
+    <h3> MelSpectrogram </h3>
+  </div>
+  <div class="column">
+    <h3> Spectrum over time</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
+    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_waveform.png" alt="ALL" width="100%" />
+  </div>
+  <div class="column">
+    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_spec.png" alt="ALL" width="100%" />
+  </div>
+  <div class="column">
+    <video width="100%" controls="" loop="">
+      <source src="/images/turntaking/tt_analysis/feynman_spectrum.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<h1 id="datasets">Datasets</h1>
+
+<p>Parameters</p>
+<ul>
+  <li>Sample Rate: 8000 Hz</li>
+  <li>max frequency: 4000Hz (Sample rate // 2)</li>
+  <li>step size: 50ms</li>
+  <li>window size: 50ms</li>
+  <li>n mels: 80</li>
+</ul>
+
+<p><strong>Switchboard</strong></p>
+
+<p><img src="/images/turntaking/tt_analysis/spectrum_swb.png" alt="ALL" width="400px" /></p>
+
+<p><strong>Maptask</strong></p>
+
+<p><img src="/images/turntaking/tt_analysis/spectrum_maptask.png" alt="ALL" width="400px" /></p>
+
+<h4 id="single-dialog-speaker-0">Single Dialog Speaker 0</h4>
+
+<p><img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_0_(all_vs_vad_vs_novad).png" alt="Channel 0" width="400px" /></p>
+
+<h4 id="single-dialog-speaker-1">Single Dialog Speaker 1</h4>
+
+<p><img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_1_(all_vs_vad_vs_novad).png" alt="Channel 1" width="400px" /></p>
+
+<h3 id="intensity">Intensity</h3>
+
+<h3 id="pitch-semitone">Pitch Semitone</h3>
+
+<h3 id="words">Words</h3>
+<ul>
+  <li>Glove Embedding
+    <ul>
+      <li>Avg</li>
+    </ul>
+  </li>
+  <li>Stop Word rate</li>
+</ul>
+
+<p>Output Space</p>
+<ul>
+  <li>VAD</li>
+  <li>Turn-taking Events</li>
+</ul>
+:ET

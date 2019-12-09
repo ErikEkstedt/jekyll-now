@@ -1,13 +1,12 @@
 ---
 layout: post
 author: Erik
-excerpt_separator: <!--more-->
 ---
 
 ## Data: Real, dataset, model and output
 
+What kinds of data are we going to work with? How to process this data? What do we wish to achieve
 
-![Image of Real -> dataset-> model -> output ]()
 
 <!--more-->
 
@@ -50,23 +49,29 @@ Parameters
 
 <div class="row">
   <div class="column">
+    <h3> Waveform </h3>
+  </div>
+  <div class="column">
+    <h3> MelSpectrogram </h3>
+  </div>
+  <div class="column">
+    <h3> Spectrum over time</h3>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
     <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_waveform.png" alt="ALL" width='100%'>
   </div>
   <div class="column">
     <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_spec.png" alt="ALL" width='100%'>
   </div>
   <div class="column">
-      <video width="100%" controls loop>
-        <source src="/images/turntaking/tt_analysis/feynman_spectrum.mp4" type="video/mp4">
+    <video width="100%" controls loop>
+      <source src="/images/turntaking/tt_analysis/feynman_spectrum.mp4" type="video/mp4">
       Your browser does not support the video tag.
-      </video>
+    </video>
   </div>
 </div>
-
-**Waveform**
-**MelSpectrogram**
-**Spectrum**
-
 
 
 # Datasets

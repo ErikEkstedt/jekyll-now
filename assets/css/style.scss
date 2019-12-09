@@ -19,7 +19,7 @@ html {
 
 body {
 	background: $white;
-	// background-image: url(/images/milky_way.jpg);
+	background-image: url(/images/milky_way.jpg);
   font: 18px/1.4 $helvetica;
   color: $black;
 }
@@ -237,7 +237,7 @@ nav {
   float: right;
   margin-top: 23px; // @TODO: Vertically middle align
   font-family: $helveticaNeue;
-  font-size: 18px;
+  font-size: 23px;
 
   @include mobile {
     float: none;
@@ -310,6 +310,8 @@ footer {
   text-align: center;
   // background-color: rgba(20, 20, 20, 0.6)
 }
+
+@import "custom.css";
 
 // Settled on moving the import of syntax highlighting to the bottom of the CSS
 // ... Otherwise it really bloats up the top of the CSS file and makes it difficult to find the start

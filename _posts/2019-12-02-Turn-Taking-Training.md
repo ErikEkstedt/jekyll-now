@@ -14,10 +14,20 @@ How should we think about the problem? What input should we use and why?
 
 <!--more-->
 
-#### Starting Point
+
+## Starting Point
 
 Based on the fact that out output space consists of binary values for voice activation the
 simplest model would use the same space as input space.
+
+
+## Non Discrete Feature, Intensity
+
+Instead of actually training on the VAD (requires some preprocessing step which
+could be better or worse) we instead train on the next best thing.  The voice
+activity will most probably be defined by taking into account intensity, the
+amount of energy or power, in each audio frame. Lets see how well the model does
+on only the intensity as intput.  
 
 
 | **Inputs** | **Description**  |
@@ -39,7 +49,8 @@ Training
 - How does the predictions look?
 
 
-#### Adding Prosody
+
+## Adding Prosody
 
 Lets use the model from the previous section but now we add some prosodic information we
 guess should be useful. We extract the intensity for each frame along with the pitch. The
@@ -70,7 +81,7 @@ only present during voiced regions of the signal. A frequency $ \frac{1}{n} != 0
   - Effects convergence?
 - Did adding the intensity and pitch improve the model
 
-#### Adding MFCC (first four)
+## Adding MFCC (first four)
 
 
 | **Inputs** | **Description** |
@@ -121,19 +132,21 @@ One straightforward follow up question is now whether the prosody information (p
 intensity) does anything valuable when using the MFCC features. Lets investigate that by
 only training on the MFCC features.
 
+For the training with only MFCC features the losses were again pretty much
+exactly the same but as with the pitch, intensity, mfcc model it score better
+than only the intensity and pitch model.
 
-
-
-## Discussion
-
-
-
-### Looking at the complete spectrum
-* Input
-  - Mel Spectrogram
+<img src="/images/turntaking/tt_training/fscore_small_all_05_1.png" alt="" width="100%">
+<img src="/images/turntaking/tt_training/fscore_small_all_2_5.png" alt="" width="100%">
 
 
 
 
+### MelSpectrogram, Looking at the complete spectrum
 
+| **Inputs** | **Description** |
+| :---------- | :------ |
+| MelSpectrogram | Well defined everywhere. Continuous. Using Frequency z normalization over each speaker |
+| **Outputs** | **Description** |
+| Binary Voice activity (VAD) | Well defined everywhere. Bounded [0, 1]. Discontinuous |
 

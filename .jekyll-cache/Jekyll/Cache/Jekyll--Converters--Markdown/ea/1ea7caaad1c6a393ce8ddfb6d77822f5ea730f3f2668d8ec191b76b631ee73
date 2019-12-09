@@ -1,0 +1,11 @@
+I"è<p>Sources</p>
+<ul>
+  <li><a href="https://ml-cheatsheet.readthedocs.io/en/latest/loss_functions.html">ml-cheatsheet</a></li>
+  <li><a href="https://colah.github.io/posts/2015-09-Visual-Information">Visual Information</a></li>
+  <li><a href="https://rohanvarma.me/Loss-Functions/">Blogpost on loss functions</a></li>
+  <li><a href="https://rdipietro.github.io/friendly-intro-to-cross-entropy-loss/">Cross Entropy</a></li>
+  <li><a href="https://towardsdatascience.com/understanding-binary-cross-entropy-log-loss-a-visual-explanation-a3ac6025181a">BCE</a></li>
+  <li><a href="https://pytorch.org/docs/stable/nn.html#loss-functions">PyTorch</a></li>
+</ul>
+
+:ET

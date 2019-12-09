@@ -1,21 +1,32 @@
 /* Table added by me */
-/* td, th { */
-/*   border: 1px solid #626262; */
-/*   text-align: left; */
-/*   padding: 8px; */
-/* } */
 
-/* tr { */
-/*   background-color: #d8d8d8; */
-/* } */
+
+/* table, caption, tbody, tfoot, thead, tr, th, td, */
+/* _includes/_reset.scss sets table settings that I do not seem to be able to overwrite? */
+
+table, caption, tbody, tfoot, thead{
+  width: 100%;
+  border: 1px solid black;
+  padding: 5px;
+  margin: 5px;
+}
+
+tr, th, td {
+  border: 1px solid black;
+  text-align: left;
+  padding: 10px;
+  background-color: #d8d8d8;
+}
 
 /* Images side by side */
-/* .row { */
-/*   display: flex; */
-/* } */
+.row {
+  display: flex;
+  max-width:100%;
+}
 
-/* .column { */
-/*   flex: 30%; */
-/*   max-width:30%; */
-/*   padding: 5px; */
-/* } */
+.column {
+  margin: auto;
+  flex: 30%;
+  max-width:30%;
+  padding: 5px;
+}
