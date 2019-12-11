@@ -1,7 +1,0 @@
-I"Æ<p>How can we evaluate our performance on the given task? After we decided upon a specific loss
-function our objective is to get that as low as possible. Thus we already now a metric to measure
-our performance, however, this may not give enough insight. Were does the model predict accurately
-and were does it suck? Does the model pick up on any particular patterns? why? Would this model be
-valuable for enhancing turn organization for any system?</p>
-
-:ET

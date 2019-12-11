@@ -13,6 +13,8 @@ Sources
 
 <!--more-->
 
+$$ H(y) = - \sum_{i} y_i \log \frac{1}{y_i} = \sum_{i} y_i \log y_i  $$
+
 # General
 
 ## Entropy, H
