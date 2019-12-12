@@ -25,11 +25,11 @@ done.
 * Optimize the prediction
 
 
-$ \frac{1}{100} = 4 $
+$$ \frac{1}{100} = 4 $$
 
 Regression
 * We have the ground truth of speech in frames
-* We optimize the MSELoss, \(( \frac{1}{N} \sum_{N} (y_{prediction} - y)^2 \))
+* We optimize the MSELoss, $$ \frac{1}{N} \sum_{N} (y_{prediction} - y)^2 $$
 Classification
 - Two classes speech/no-speech
 
@@ -45,9 +45,9 @@ Classification
 **Not Problems but...**
 - The resulting prediction curve may be difficult to actually use
   - How are the prediction curves translated into actual turntaking?
-  - Choose a interval that you care about, say the next secon, compare the
+  - Choose a interval that you care about, say the next second, compare the
     output probabilities between channels, then pick the one with the largest
-    probability mass/volume
+    probability mass/volume.
 - Where are other models (previous) work that focus on output such like this?
   - What loss-function and models have been tried? any?
 
@@ -57,12 +57,12 @@ Classification
 Lets see if we may divide the binary state space of each channel (four states)
 into states with information more absolute. The first distinction we can make is
 to determine, for each channel, if it is currently speaking or not. This yields
-\\( n_{channels}^2 \\) possible states. For our purposes we have 2 channels
-resulting in 4 states \\(\{(0,0),(0,1),(1,0),(1,1)\}\\). Now we are interested
+$$  n_{channels}^2 $$  possible states. For our purposes we have 2 channels
+resulting in 4 states $$\{(0,0),(0,1),(1,0),(1,1)\} $$ . Now we are interested
 in information regarding the future of the conversation. Lets discretize the
 future in to specific states. Lets pick 0.5 seconds as our reference time and
 say that we are interested in the next 2 seconds, that is 4 discrete times (0,
-.5], (.5 1], (1 1.5], (1.5 2]. Lets also add a bin for "later" (2 inf). This
+.5], (.5 1], (1 1.5], (1.5 2]. Lets also add a bin for "later" ($$ \to \infty $$). This
 gives us 5 possible time states. So far so good.
 
 Given the first 4 states, speaking/no-speaking, we want to get the correct time
@@ -85,15 +85,15 @@ seconds from now (row 4, column 4). The last column means that the feature row
 does not stop in "any forseeable future".
 
 Now, how many combination of states do we get? We have 4 possible starting
-states, \\(n_{channels}^2 \\), where each of these contain exactly 2 rows with
-one value of one each. Each row has 5 columns \\(n_{time}\\) and therefore we
-can have \\(n_{time}\\) * \\(n_{time}\\) or \\(n_{time}^2\\) possible
-permutations, and for this example this becomes 25 (5^2). The total states is
-therefore 4*25=100. Or in more general terms \\(N_{states} = n_{channels}^2 * n_{time}^2\\)
+states, $$n_{channels}^2$$, where each of these contain exactly 2 rows with
+one value of one each. Each row has 5 columns$$n_{time}$$  and therefore we
+can have $$n_{time} * n_{time}$$ or $$n_{time}^2$$  possible
+permutations, and for this example this becomes $$ 25 (5^2) $$. The total states is
+therefore 4*25=100. Or in more general terms $$N_{states} = n_{channels}^2 * n_{time}^2$$ 
 possible future states.
 
 Now we do not need to care about this specific states as rows and columns
-containing ones and zeros but just the fact that we have \\(N_{states})\\)
+containing ones and zeros but just the fact that we have $$N_{states})$$ 
 possible output classes. In a way what we have constructed is a discretized
 version of the conversation, with regard to turn-taking, who and when someone
 speaks and listens. We could view these independent states as the next "words"
