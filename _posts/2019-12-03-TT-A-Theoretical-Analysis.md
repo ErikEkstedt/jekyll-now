@@ -60,10 +60,10 @@ Parameters
 </div>
 <div class="row">
   <div class="column">
-    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_waveform.png" alt="ALL" width='100%'>
+    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_waveform.png" alt="ALL" style='height: 240px'>
   </div>
   <div class="column">
-    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_spec.png" alt="ALL" width='100%'>
+    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_spec.png" alt="ALL" style='width: 100%'>
   </div>
   <div class="column">
     <video width="100%" controls loop>
@@ -76,29 +76,44 @@ Parameters
 
 # Datasets
 
-Parameters
-* Sample Rate: 8000 Hz
-* max frequency: 4000Hz (Sample rate // 2)
-* step size: 50ms
-* window size: 50ms
-* n mels: 80
+#### Parameters
 
-**Switchboard**
-
-<img src="/images/turntaking/tt_analysis/spectrum_swb.png" alt="ALL" width='400px'>
-
-**Maptask**
-
-<img src="/images/turntaking/tt_analysis/spectrum_maptask.png" alt="ALL" width='400px'>
+| Feature:          | Value     |
+| :---------------- | :-------- |
+| Sample Rate:      |   8000 Hz |
+|    max frequency: | 4000Hz (Sample rate // 2) |
+|   step size:      |   50ms |
+| window size:      |   50ms |
+|      n mels:      |     80 |
 
 
-#### Single Dialog Speaker 0
+<div class='row'>
+  <div class='columns'>
+    <b>Switchboard</b>
+    <img src="/images/turntaking/tt_analysis/spectrum_swb.png" alt="ALL" style='flex: 50%; width: 90%'>
+  </div> 
+  <div class='columns'>
+    <b>Maptask</b>
+    <img src="/images/turntaking/tt_analysis/spectrum_maptask.png" alt="ALL" style='flex: 50%; width: 91%'>
+</div> 
+</div>
 
-<img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_0_(all_vs_vad_vs_novad).png" alt="Channel 0" width='400px'>
 
-#### Single Dialog Speaker 1
 
-<img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_1_(all_vs_vad_vs_novad).png" alt="Channel 1" width='400px'>
+<div class='row'>
+  <div class='columns'>
+  <b>Single Dialog Speaker 0</b>
+  <img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_0_(all_vs_vad_vs_novad).png" alt="Channel 0" style='flex: 50%; width: 91%'>
+  </div> 
+  <div class='columns'>
+    <b>Single Dialog Speaker 1</b>
+    <img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_1_(all_vs_vad_vs_novad).png" alt="Channel 1" style='flex: 50%; width: 91%'>
+</div> 
+</div>
+
+
+
+
 
 
 

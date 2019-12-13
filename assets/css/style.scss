@@ -21,7 +21,7 @@ body {
 	background: $white;
 	background-image: url(/images/milky_way.jpg);
   font: 18px/1.4 $helvetica;
-  color: $black;
+  color: #474747;
 }
 
 // Used in _includes/navigation.html to highlight current (navigation) page
@@ -54,7 +54,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $helveticaNeue;
-  color: $darkerGray;
+  color: #2f2f2f;
   font-weight: bold;
 
   line-height: 1.7;

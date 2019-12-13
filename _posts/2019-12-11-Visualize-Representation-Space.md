@@ -77,29 +77,37 @@ average points we can show it as images and can abstract away from the continuou
 
 ### VAD
 
-![](/images/turntaking/tt_representation/rep_z_vad_average_100swbval.png)
+<img class='centerImg' src="/images/turntaking/tt_representation/rep_z_vad_average_100swbval.png" alt=""/>
 
 VAD TSNE Speaker vs Listener
 
 ### Hold vs Shifts
-![](/images/turntaking/tt_representation/rep_z_holds_average_100swbval.png)
+
+<img class='centerImg' src="/images/turntaking/tt_representation/rep_z_holds_average_100swbval.png" alt=""/>
 
 HOLD TSNE Speaker vs Listener
 
-![](/images/turntaking/tt_representation/rep_z_shifts_average_100swbval.png)
+<img class='centerImg' src="/images/turntaking/tt_representation/rep_z_shifts_average_100swbval.png" alt=""/>
 
 SHIFT TSNE Speaker vs Listener
 
 ### Overlaps: between and within
 
-![](/images/turntaking/tt_representation/rep_z_overlapb_average_100swbval.png)
 
-Overlap between (shifts) TSNE Speaker vs Listener
+<div class='row'>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_representation/rep_z_overlapb_average_100swbval.png" alt="" style="flex: 50%;width: 100%"/>
+    Overlap between (shifts) TSNE Speaker vs Listener
+  </div>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_representation/rep_z_overlapw_average_100swbval.png" alt="" style="flex: 50%;width: 100%"/>
+    Overlap within TSNE Speaker vs Listener
+  </div>
+</div>
 
 
-![](/images/turntaking/tt_representation/rep_z_overlapw_average_100swbval.png)
 
-Overlap within (backchannel/acknowledgement/failed-turn-taking-attempt) TSNE Speaker vs Listener
+
 
 
 
