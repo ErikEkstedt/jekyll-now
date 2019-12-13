@@ -41,12 +41,10 @@ layer closest to the melspectrogram and the right one is the final representatio
 layer.
 
 
-<div class='centerImg'>
 <video width="90%" controls>
   <source src="/images/turntaking/tt_representation/video_z_states2.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
-</div>
 
 ## Getting More Specific
 
@@ -77,10 +75,31 @@ conversations we may simplify it and look at the average encoding over these mom
 average points we can show it as images and can abstract away from the continuous dialogs.
 
 
-### Shifts vs Holds
+### VAD
+
+![](/images/turntaking/tt_representation/rep_z_vad_average_100swbval.png)
+
+VAD TSNE Speaker vs Listener
+
+### Hold vs Shifts
+![](/images/turntaking/tt_representation/rep_z_holds_average_100swbval.png)
+
+HOLD TSNE Speaker vs Listener
+
+![](/images/turntaking/tt_representation/rep_z_shifts_average_100swbval.png)
+
+SHIFT TSNE Speaker vs Listener
+
+### Overlaps: between and within
+
+![](/images/turntaking/tt_representation/rep_z_overlapb_average_100swbval.png)
+
+Overlap between (shifts) TSNE Speaker vs Listener
 
 
-### Speaker vs listener
+![](/images/turntaking/tt_representation/rep_z_overlapw_average_100swbval.png)
+
+Overlap within (backchannel/acknowledgement/failed-turn-taking-attempt) TSNE Speaker vs Listener
 
 
 
