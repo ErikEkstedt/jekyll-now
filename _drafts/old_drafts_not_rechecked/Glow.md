@@ -9,6 +9,8 @@ Invertible flows are useful because they allow for a model to directly maximize 
 log-likelihood instead of doing variational inference. 
 [Paper](https://arxiv.org/pdf/1807.03039.pdf)
 
+<!--more-->
+
 Glow is an architecture decomposed into **two** parts. The **high-level multi-scale
 architecture** that contains **L** layers. Each of these layers consists of **K** **steps
 of flow**. In this architecture a step of flow is defined as 3 sequential layers.

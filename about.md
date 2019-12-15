@@ -4,8 +4,12 @@ title: About
 permalink: /about/
 ---
 
-A person interested in and continuously thinking about AI, perception, human thoughts and
-the like.
+I think it is notes in progress. 
+
+Notes for keeping track over time and subjects. 
+
+How to learn to visualize ones ideas; a blog implementation approach.
+
 
 ### Contact me
 

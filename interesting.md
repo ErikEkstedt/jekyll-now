@@ -1,10 +1,15 @@
 ---
 layout: post
-title: Interesting
-permalink: /interesting/
+title: VideoSources
 ---
 
+Just a place to maybe remember something cool but takes upkeep so, yeah.
+
+<!--more-->
+
+
 ## Information Theory of Deep Learning, Naftali Tichby
+
 <iframe class='video' src="https://www.youtube.com/embed/FSfN2K3tnJU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ---

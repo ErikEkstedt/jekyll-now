@@ -12,4 +12,4 @@ title: CPC
 * The brain predictive
 
 
-<!--excerpt-->
+<!--more-->

@@ -19,7 +19,7 @@ $$ H(y) = - \sum_{i} y_i \log \frac{1}{y_i} = \sum_{i} y_i \log y_i  $$
 
 ## Entropy, H
 
-\\[ H(y) = - \sum_{i} y_i \log \frac{1}{y_i} = \sum_{i} y_i \log y_i  \\]
+$$ H(y) = - \sum_{i} y_i \log \frac{1}{y_i} = \sum_{i} y_i \log y_i $$ 
 
 
 The minimum , theoretical lower limit, cost to send information (maximum amount of information per bit). Using encoding based on prior knowledge about the source.
@@ -32,19 +32,19 @@ The minimum , theoretical lower limit, cost to send information (maximum amount 
 Maximizing the the log-likelihood is the same as minimizing the cross entropy
 
 
-\\[ H_{y} (\hat{y}) = \sum_{i} \hat{y_i} \log \frac{1}{y_i} = \sum_{i} \hat{y}_i \log y_i \\]
+$$ H_{y} (\hat{y}) = \sum_{i} \hat{y_i} \log \frac{1}{y_i} = \sum_{i} \hat{y}_i \log y_i $$
 
-\\[ H_{\hat{y}} (y) = \sum_{i} y_i \log \frac{1}{\hat{y_i}} = \sum_{i} y_i \log \hat{y_i} \\]
+$$ H_{\hat{y}} (y) = \sum_{i} y_i \log \frac{1}{\hat{y_i}} = \sum_{i} y_i \log \hat{y_i} $$
 
 
 ## KLD
 
-\\[ D_{KL}(y || \hat{y}) = D_{ \hat{y} }(y) = H_{\hat{y}}(y) - H(y) \\]
+$$ D_{KL}(y || \hat{y}) = D_{ \hat{y} }(y) = H_{\hat{y}}(y) - H(y) $$
 
 
 ## Binary-Cross-Entropy, BCE
 
-\\[ L(y, \hat{y} ) = BCE(x, y) = \frac{1}{N} \sum_{n = 0}^{N} \\]
+$$ L(y, \hat{y} ) = BCE(x, y) = \frac{1}{N} \sum_{n = 0}^{N} $$
 
 
 
@@ -60,7 +60,7 @@ The L1-loss uses the absolute difference (L1-norm) for each of the \((y_{pred}, 
 pairs.
 
 
-\\[ L(y_{pred}, y) = L \{l_1, ..., l_n\}^T, l_n = |y_{pred, n} - y_n|  \\]
+$$ L(y_{pred}, y) = L \{l_1, ..., l_n\}^T, l_n = |y_{pred, n} - y_n|  $$
 
 In PyTorch you have the ability to then choose what type of reduction scheme to use.
 This reduction is either 'none', 'mean' or 'sum' where the 'mean' is the default.
@@ -68,12 +68,12 @@ This reduction is either 'none', 'mean' or 'sum' where the 'mean' is the default
 
 Mean:
 
-\\[ L_{mean}(y_{pred}, y) = \frac{1}{N}\sum_{n=0}^N l_n \\]
+$$ L_{mean}(y_{pred}, y) = \frac{1}{N}\sum_{n=0}^N l_n $$
 
 
 Sum:
 
-\\[ L_{sum}(y_{pred}, y)  = \sum_{n=0}^N l_n \\]
+$$ L_{sum}(y_{pred}, y)  = \sum_{n=0}^N l_n $$
 
 
 None:
@@ -88,16 +88,16 @@ the error (distance between true and predicted) squared. Again we may choose wha
 of reduction schema to use.
 
 
-\\[ L(y_{pred}, y) = L \{l_1, ..., l_n\}^T, l_n = (y_{pred, n} - y_n)^2  \\]
+$$ L(y_{pred}, y) = L \{l_1, ..., l_n\}^T, l_n = (y_{pred, n} - y_n)^2  $$
 
 Mean:
 
-\\[ L_{mean}(y_{pred}, y) = \frac{1}{N}\sum_{n=0}^N l_n \\]
+$$ L_{mean}(y_{pred}, y) = \frac{1}{N}\sum_{n=0}^N l_n $$
 
 
 Sum:
 
-\\[ L_{sum}(y_{pred}, y) = \sum_{n=0}^N l_n \\]
+$$ L_{sum}(y_{pred}, y) = \sum_{n=0}^N l_n $$
 
 
 None:
@@ -118,17 +118,17 @@ be in the domain of log the output cannot be equal to or larger than 1.
 
 Thus the most common thing to do is to use the Sigmoid activation for the output.
 
-\\[ L(y_{pred}, y) = L \{l_1, ..., l_n\}^T, l_n = -w_n [ y_n * \log(y_{pred, n}) + (1-y_n) * \log(1 - x_n ) ] \\]
+$$ L(y_{pred}, y) = L \{l_1, ..., l_n\}^T, l_n = -w_n [ y_n * \log(y_{pred, n}) + (1-y_n) * \log(1 - x_n ) ] $$
 
 
 Mean:
 
-\\[ L_{mean}(y_{pred}, y) = \frac{1}{N}\sum_{n=0}^N l_n \\]
+$$ L_{mean}(y_{pred}, y) = \frac{1}{N}\sum_{n=0}^N l_n $$
 
 
 Sum:
 
-\\[ L_{sum}(y_{pred}, y) = \sum_{n=0}^N l_n \\]
+$$ L_{sum}(y_{pred}, y) = \sum_{n=0}^N l_n $$
 
 
 ### BCEWithLogitsLoss

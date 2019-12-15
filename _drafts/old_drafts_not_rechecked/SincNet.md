@@ -8,7 +8,7 @@ identification. The main contribution is to redefine a regular `Conv1D` layer in
 learning to learn only a bandpass filter. This greatly reduces the number of parameters
 needed as the first step of encoding a raw audio-sample signal.
 
-<!--excerpt-->
+<!--more-->
 
 <img src="/assets/images/SincNet/SincNet.png" alt="SincNet" height='600' style='float:right'/>
 

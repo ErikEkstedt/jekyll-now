@@ -6,7 +6,7 @@ title: Information
 
 
 
-<!--excerpt-->
+<!--more-->
 
 
 * Claude Shannon

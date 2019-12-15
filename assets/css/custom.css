@@ -29,3 +29,11 @@ tr, th, td {
   flex: 30%;
   padding: 5px;
 }
+
+
+/* site*/
+
+.site-description {
+  width: 90%;
+  padding: 5px;
+}

@@ -4,7 +4,6 @@ title: Generative Models
 ---
 
 
-<!--excerpt-->
 
 ## What are Generative Models?
 
@@ -14,6 +13,8 @@ title: Generative Models
   - A generator
   - A way to sample data as similar to real data as possible
   - *p(x; theta)*
+
+<!--more-->
 
 * What should they know?
   - They approximate the probability space over all possible X.

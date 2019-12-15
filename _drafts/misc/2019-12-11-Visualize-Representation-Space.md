@@ -4,15 +4,25 @@ author: Erik
 ---
 
 
+## Intro
 
-Sources:
-* [Memorization in RNNs](https://distill.pub/2019/memorization-in-rnns/)
-* [Visualizing and Understanding RNNs, (Karpathy, Johnson, 2016)](https://arxiv.org/pdf/1506.02078.pdf)
+How can we look at model representations? What would we expect to see?
+
+
+<video width="40%" controls>
+  <source src="/images/turntaking/tt_representation/video_z_states2.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
 
 
 
 <!--more-->
 
+* [TSNE, van der Maaten, 2008](http://jmlr.org/papers/volume9/vandermaaten08a/vandermaaten08a.pdf) algorithm.
+* [Memorization in RNNs](https://distill.pub/2019/memorization-in-rnns/)
+* [Visualizing and Understanding RNNs, (Karpathy, Johnson, 2016)](https://arxiv.org/pdf/1506.02078.pdf)
+
+## TSNE Projection of the latent space
 TODO:
 * [ ] TSNE projection of hidden space
     - [x] sample video
@@ -20,9 +30,6 @@ TODO:
     - [ ] speaker vs listeners
 * [ ] Plain activation
 * [ ] Saturation areas, [(Karpathy, Johnson, 2016)](https://arxiv.org/pdf/1506.02078.pdf)
-
-
-## TSNE Projection of the latent space
 
 
 Lets investigate our model by looking at the final RNN representation before the last Conv1D/Linear
@@ -46,6 +53,8 @@ layer.
 Your browser does not support the video tag.
 </video>
 
+
+
 ## Getting More Specific
 
 The TSNE algorithm requires all the data for the clustering and for this specific sample only the
@@ -58,7 +67,7 @@ To get a better understanding we should do the TSNE calculations over as many da
 We could do it on all our data (training, validation and test set) or perhaps on the validation/test
 set.
 
-Posit that we do this, then we have the capability to compare multiple videos with the knowledge
+Posit that we do this, then we have the capakkkkkbility to compare multiple videos with the knowledge
 that the projected Z space is the same. A better approach could be to ask certain questions
 regarding this space. We could, for example, visualize the entire dataset, focus on some cluster (if
 present), then look at what moments in the conversations they correspond to. Do we se cluster for
@@ -107,6 +116,7 @@ SHIFT TSNE Speaker vs Listener
 
 
 
+## 
 
 
 

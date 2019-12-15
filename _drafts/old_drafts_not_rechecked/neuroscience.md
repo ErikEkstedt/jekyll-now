@@ -3,7 +3,7 @@ layout: page
 title: Neuroscience with Jeff Hawking
 ---
 
-<!--excerpt-->
+<!--more-->
 
 ### Talking bout layers.
 Location, allocentric, S1/egocentric, M1.

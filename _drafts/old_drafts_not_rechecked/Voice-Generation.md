@@ -5,7 +5,7 @@ title: Audio
 
 Deep learning in audio space
 
-<!--excerpt-->
+<!--more-->
 
 ## Audio
 
