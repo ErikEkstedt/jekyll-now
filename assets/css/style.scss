@@ -19,9 +19,9 @@ html {
 
 body {
 	background: $white;
+  color: $black;
 	background-image: url(/images/milky_way.jpg);
   font: 18px/1.4 $helvetica;
-  color: #474747;
 }
 
 // Used in _includes/navigation.html to highlight current (navigation) page
@@ -35,7 +35,7 @@ body {
   padding: 0 10px;
   width: 100%;
   border-radius: 5px;
-  background-color: rgba(215, 215, 215, 0.9)
+  background-color: rgba(215, 215, 215, 0.95)
 }
 
 .centerImg {
