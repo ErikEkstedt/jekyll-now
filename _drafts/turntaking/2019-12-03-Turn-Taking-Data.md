@@ -19,6 +19,30 @@ What kinds of data are we going to work with? How to process this data? What do 
 
 ## Input space
 
+* Audio is sampled by pressure changes in the air. 
+* These changes are measured by a device to produce discrete values at certain time intervals
+* 1D sequence over time
+* 1D -> 2D, $$R^1 \to R^2$$, fourier transformation.
+  - A fuzzier perspective (to a degree) over time
+  - Image space where left to right carry different meaning than right to left; information is not symmetric about the frequency-axis
+* Samples - Spectrogram
+    - Frequenciy Intensity over Time
+    - Human hearing $$20-20KHz$$
+    - 16Khz for speech intuitevely seems plenty to have conversations
+    - 8KHz is arguably enugh but the quality degregation is at least annoying. Too much noice is
+        difficult to encode
+* more complex the content of the information in the audio the more other capabilities more than audio quality is needed. For simpler speech activities I would argue 4Khz is mostly enough even though here you might be bothered (and lose concentration) by the audio quality.
+
+
+On Deepminds [blog](https://deepmind.com/blog/wavenet-generative-model-raw-audio/) they show this gif zooming in on an audio waveform.
+<img width='200' src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig1-Anim-160908-r01.gif" alt="" align='middle'> 
+A sequence of intensity over time.  A [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform)
+decomposes the signal in to a frequency domain representation, precicely a sum over frequencies and their magnitude. A linear set of
+frequencies played with different magnitudes.
+<iframe width="200" src="https://www.youtube.com/embed/spUNpyF58BY?ecver=1" frameborder="0" allow="autoplay; encrypted-media" align='middle' allowfullscreen> All possible sounds span sound space  </iframe> 
+<iframe width="200" src="https://s3.envato.com/h264-video-previews/87821136-dccf-4270-a5a3-57f6cca7fde8/20404750.mp4" align='middle' frameborder="90" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+
 ## Acoustic Information
 
 Spectrogram Fourier transform of 1D audio (intensity) signal -> 2D frequency/power space.
@@ -115,12 +139,6 @@ Parameters
 </div> 
 </div>
 
-
-
-
-
-
-
 ### Intensity
 
 ### Pitch Semitone
@@ -133,3 +151,28 @@ Parameters
 Output Space
 - VAD
 - Turn-taking Events
+
+
+## Conversation & Prosody
+
+<button onclick="nonSense()"> The Nonsensicality of Prosody with seemingly random spoken information.  </button>
+
+
+<div id="nonSense">
+  <li> The Books makes cool art.  </li>
+  <blockquote>
+    "It is a compendium on mini CD of four pieces created for the "1%" art and sound installation in the Ministry of Culture in Paris, France in 2004."
+  </blockquote>
+  <blockquote>
+    I laughed really hard one night at around 22.30 in front of my computer
+    "Can you shut the door!"
+  </blockquote>
+  <iframe src="https://open.spotify.com/embed/track/6q6EXUhoujkQCkcAwe1jEK" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+  Music For a French and Other short format oddities, The Books, 2004 [pitchfork article](https://pitchfork.com/reviews/albums/857-music-for-a-french-elevator/)
+  We hear some conjunctions "and", "or", some other "not totally random" words but mostly it is
+  numbers. (min - max)
+
+  [Wikipedia](https://en.wikipedia.org/wiki/Music_for_a_French_Elevator_and_Other_Short_Format_Oddities_by_the_Books)
+  Wikipedia contributors. "Music_for_a_French_Elevator_and_Other_Short_Format_Oddities_by_the_Books" Wikipedia, The Free Encyclopedia. Wikipedia, The Free Encyclopedia, 20 Dec. 2019. Web. 20 Dec. 2019.
+</div>
+
