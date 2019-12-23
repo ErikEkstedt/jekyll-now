@@ -51,7 +51,8 @@ author: Erik
   * This can be more efficient (CPC2)
 
 
-# Input Space & Output Space for Conversations
+
+## Input Space & Output Space for Conversations
 
 * Audio
   * Waveform, Spectrograms
@@ -73,35 +74,41 @@ patterns that form discrete tokens (phonemes).
 <img class='centerImg' src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_spec.png" alt="ALL" style='width: 40%'>
 
 The idea to treat the spectrogram as an image is straight-forward if we only care about the content
-of the spectrogram and are not concern about any time constraints. However, if we for some reason
-, need to reason about the content continuously we have to be careful about not letting any future
-information effect our current predictions.
+of the spectrogram and are not concern about any time constraints. However, if we need to reason
+about the content continuously we have to be careful about not letting any future information effect
+our current predictions.
+
+* How to use a CNN over arbitrary long sequences as encoder to a continuous model (e.g RNN)? 
+* How to make sure that no information flows "backwards" in time (regardless of the depth of the network)
+* The content of a spectrogram is $$Frequency \times Time$$, for regular images it is $$ Spatial \times Spatial $$. 
+  * Is this a problem for encoding spectrograms?  
+  * Can one use 2D-convs on spectrograms effectively?
+  * Is 1D-convs enough (better than 2D-convs)?
 
 
 ## Continuously, time constrained encoding of spectrograms with CNNs
 
-How to use a CNN over arbitrary long sequences as encoder to a continuous model (e.g RNN)? How to
-make sure that no information flows "backwards" in time the deeper in the network it gets. The
-content of a spectrogram is $$Frequency \times Time$$, for regular images it is $$ Spatial \times
-Spatial $$. Is this a problem for encoding spectrograms?  How to construct a strong 1Dconv encoder
-for spectrogram/MFCC? How to use 2D-convs on spectrograms?
+In order to use a CNN based encoder for continuous data we want to find out how to achieve two
+things. First that the encoder representations at each step only depends on the previous up and to
+the current input. Secondly, we want to find out how much previous information is used, that is the
+receptive field of the encoder for each time step. This value will give us an indication for what
+type of information the encoder can possible encode.
 
-## CNN
-
-* Convolutional Neural Network, CNN, parameters
-  * kernel size
-  * stride
-  * dilation
-  * padding
+A Convolutional Neural Network, CNN, are defined by a set of paramters.
+* kernel size, the size of the matrix/window processing the information
+* stride, the step of which to jump for each 
+* dilation, the spread of the elements being processed by a single krenel operation
+* padding, the amount of padding to add to the input
 * Receptive Field, RF
+  - How much does a feature at any given time step see?
   - [How to compute the receptive field](https://distill.pub/2019/computing-receptive-fields/)
 
 The kernel size defines how many features to process from the previous layer. Stride defines the
 "step" of which to jump when applying the convolution. The dilation defines how spread out the
 elements used in the kernel multiplication is. A dilation of 1 yields a normal convolution, all
 features processed by the kernel, at any given step, is seperated by 1 i.e they are in consecutive
-order. For a dilation of 2 the elements are now separated by one, that is every other element in the
-previous layer is processed by the kernel, in any given step.
+order. For a dilation of 2 the elements are now separated by two, that is every other element in the
+previous layer is processed by the kernel, for any given kernel operation.
 
 The receptive field of a convolutional output is the size of the interval of which it processes
 information. For example a single layer with kernel-size 3, stride 1 and dilation 1, each step
@@ -219,33 +226,109 @@ see more clearly.
 
 ## Stacks of Causal (dilated) CNNs
 
+Given that we now may process information casually we need to define how our encoder atchitecture. A
+common "block" in many convolutional networks is the "ResNet block" introduced in [Deep Residual
+Learning for Image Recognition, He et al 2015](https://arxiv.org/pdf/1512.03385.pdf). In both
+[VQVAE](https://arxiv.org/pdf/1711.00937.pdf, vad den Oord) and [VQVAE
+2](https://arxiv.org/pdf/1906.00446.pdf) the first two layers of the encoder are regular CNNs with a
+stride of two and kernel size of 4. This means that the spatial dimensions are halfed through each
+layer. Following this "downsampling" the data flows through a two layered Resnet block. A resnet
+block is defined by two weight layers separated by an activation (relu) followed by a skip
+connection. (The image below is from the resnet paper).
 
-* [x] Resnet Stack with different layers and dilation
-* [x] Multiple Resnet Stacks and add output
-* [x] Gradient visualization
+<img class='centerImg' src="/images/cnn/ResnetBlock.png" alt="" width="50%"/>
+
+Lets construct a casual ResNet Block and test that causality holds. In the images below we see the
+output from multiple Casual ResNet Blocks (5 layers). The outpu to the left is the randomly
+initialized output and to the right is the output initialized to all ones and all the nonzero output
+has a value of one.
+
+<div class='row'>
+  <div class='column'>
+  <center> <b> Causal Resnet Block D: 3, 2 K: 3</b> </center>
+  <img class='centerImg' src="/images/cnn/causal_resnet_block_d3_k3.png" alt="" width="80%"/>
+  </div>
+  <div class='column'>
+  <center> <b> (all nonzero output = 1) Causal Resnet Block D: 3, 2 K: 3</b> </center>
+  <img class='centerImg' src="/images/cnn/causal_resnet_block_d3_k3_thresh.png" alt="" width="80%"/>
+  </div>
+</div>
+
+## Encoder
+
+The ResNet block output seems to be okay so lets add the first downsampling layers which defines the
+hidden channels we want to use (ResNet blocks has the same in and out channels). After this initial
+layer we put our resnet block followed by an output layer (conv1D) to project the data to any
+desired output space. This is our initial encoder structure. Lets see how the output looks but also
+lets backprop through the encoder to the ouput and see where we get gradients. For the images below
+we use a 5 layer encoder (1 pre-layer, 2 layer resnet blocks, 1 output layer) with a kernel size of
+3 and dilation 1. The gradients are calculated from the time step indicated by the black line.
+
+<div class='row'>
+  <div class='column'>
+  <center> <b> Small dilation (1) </b> </center>
+  <img class='centerImg' src="/images/cnn/encoder_grad_L5_K3_D1.png" alt="" width="90%"/>
+  </div>
+  <div class='column'>
+  <center> <b> Larger dilation (3) </b> </center>
+  <img class='centerImg' src="/images/cnn/encoder_grad_L5_K3_D3.png" alt="" width="90%"/>
+  </div>
+</div>
+
+
+Here we see that the gradient is zero "in the future" to the right of the black line which is
+exactly what we want.
+
+What about a larger receptive field through dilation? Well, the gradient reaches further into the
+past (larger receptive field) but we actually don't get any information from every other time step,
+there is no gradient values here. This means that the information we could possibly extract for this
+specific time step has to be in the yellow frames in the gradient plot. 
+
+
+### Multiple Stacks
+
+If we require more information at every time step then we could try to have multiple resnet stacks
+(pre-layer, resnet blocks, output layer) and then combine the total output.  The output may be
+combined through concatenation or addition. In the image below we use both the stacks from the
+previous images, combine them, and calculate the gradient.
+
+<div class='row'>
+  <div class='column'>
+  <center> <b> Encoder Kernel size: 3 & Dilation: 1, 3 </b> </center>
+  <img class='centerImg' src="/images/cnn/encoder_grad_L5_K3_D1-3_add.png" alt="" width="90%"/>
+  </div>
+  <div class='column'>
+  <center> <b> Encoder Kernel size: 3, 5 & Dilation: 1, 3 </b> </center>
+  <img class='centerImg' src="/images/cnn/encoder_grad_L5_K3-5_D1-3_add.png" alt="" width="90%"/>
+  </div>
+</div>
+
+Not surprisingly we end up with the combined output and gradient from the previous cases. The
+gradient shows us what information is available at any given time step and now we can reason about
+how to design our encoder further. The left image above shows the gradient for two stacks both with
+kernel size 3 and a dilation of 1 and 3 respectively. The right image above shows the gradient for
+an encoder with 4 stacks with kernel sizes 3 and 5 and dilation 1 and 3.
+
+Additions:
+* Combine the output from all stacks at each layer not just last
+
+
+## Receptive Field
+
+TODO: add receptive field function to know the receptive field beforehand. Check against gradient to
+see that they match.
+
 * [ ] Receptive Field
-  * In order to encode a latent space containing the information of the past we may want to learn a representation through an AE structure
-  * What is the receptive field for the latent space for any given time step?
-  * What information in the receptive field are we interested in? Reconstruct
+
+## Test
+
+* In order to encode a latent space containing the information of the past we may want to learn a representation through an AE structure
+* What is the receptive field for the latent space for any given time step?
+* What information in the receptive field are we interested in? Reconstruct
 * VQVAE
 * CPC
 
-### Encoder or Stacks of Casual Resnet Convolutions
-
-Stacks of casual convolutions with resnet blocks.
-* show both cat and add
-<div class='row'>
-  <div class='column'>
-  <center> <b> Encoder Resnet Stacks D: 1, 2 K: 3,5,7</b> </center>
-    <img class='centerImg' src="/images/cnn/encoder_K-3-5-7_D-1-2_add_thresh.png" alt="" width="100%"/>
-    <img class='centerImg' src="/images/cnn/encoder_K-3-5-7_D-1-2_add.png" alt="" width="100%"/>
-  </div>
-  <div class='column'>
-  <center> <b> Encoder Resnet Stacks D: 1 K: 3,5,7,9</b> </center>
-    <img class='centerImg' src="/images/cnn/encoder_K-3-5-7-9_D-1_add_cat.png" alt="" width="100%"/>
-    <img class='centerImg' src="/images/cnn/encoder_K-3-5-7-9_D-1_add_thresh.png" alt="" width="100%"/>
-  </div>
-</div>
+Okay so now we have a Causal 1D-Conv encoder. How do we know what metrics to use? 
 
 
 
