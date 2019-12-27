@@ -26,7 +26,7 @@ author: Erik
     - [vincentherrmann/pytorch-wavenet)](https://github.com/vincentherrmann/pytorch-wavenet)
 * [VAE](https://arxiv.org/pdf/1312.6114.pdf)
 * [VQVAE](https://arxiv.org/pdf/1711.00937.pdf, vad den Oord)
-* [VQVAE 2](https://arxiv.org/pdf/1906.00446.pdf)
+* [VQVAE 2]( https://arxiv.org/pdf/1906.00446.pdf )
   - [rosanality/vq-vae-2-pytorch](https://github.com/rosinality/vq-vae-2-pytorch)
 * [CPC](https://arxiv.org/pdf/1807.03748.pdf)
 * [Data-Efficient Image Recognition with CPC](https://arxiv.org/pdf/1905.09272.pdf)
@@ -320,17 +320,101 @@ see that they match.
 
 * [ ] Receptive Field
 
-## Test
+## Learn What Representations in What Space?
 
-* In order to encode a latent space containing the information of the past we may want to learn a representation through an AE structure
+Learn distributions from Autoregressive Probabilistic Models (LM) or Reconstruction Auto Encoder models
+
+## Space
+
+What to reconstruct?
+- Wavenet "reconstructs"/"generates" discrete values of samples. 
+    - 0-255 classes at Hz
+- Reconstruct next frame in spectrogram?
+    - Sigmoid at output for each channel -> MSE
+    - Discretize between min-max values for the intensity of each channel
+      - 80 Frequencies
+      - 256 values each -> 20480 total classes
+      - How did melnet do it?
+
+
+
+
+## Probabilistic Autoregressive Model
+
+* [Melnet](https://arxiv.org/pdf/1906.01083.pdf) 
+  * Factorize a joint distribution over a spectrogram x as a product over conditional distributions
+  * Define an order for the conditional distributions $$ P(x) = \prod P(x_i \| x_{<i}) $$
+    * Melnet define from low to high frequency for each spectrogram frame
+    * They model their distribution by $$ \theta $$. Which outputs the vector $$ \theta \in R^{3K} $$.
+    * A mixture of $$K$$ distributions
+    * That is $$ \theta = \{ \mu, \sigma, \pi \}^{K}_{k=1}$$
+    * Constraints on the outputs to define "simple" Gaussian Misxtures
+      * linear for mean $$\mu $$, Sigmoid for $$\sigma$$ positive standard deviations and mixture
+          coefficients $$\pi$$ summing to one by a softmax
+  * Have the parameters be defined by the maximum likelihood estimate with regard to the data
+  * This maximum likelihood estimation of parameters is the same as optimizing the negative log
+      likelihood 
+* [WaveNet, van den Oord, 2016](https://arxiv.org/abs/1609.03499) outputs a categorical distribution over the sample value for each timestep
+  * The catagorical ditribution is defined by a softmax over N ($$2^8 = 256 \in [0, 255] $$) categories
+  * Optimize the maximum likelihood of the data w.r.t the parameters
+  * "Because log-likelihoods are tractable, we tune hyperparameters on a validation set and can easily measure if the model is overfitting or underfitting"
+* [PixelCNN](https://arxiv.org/pdf/1601.06759.pdf) Models images through maximum likelhood where each color channel value is defined by an $$N = 2^8$$
+    categorical distribution (softmax) 
+
+
+## Setup
+
+Given that we want to reconstruct/generate the frames of a spectrogram we could do this continuously
+(MSE) or discretely (softmax / NLL). Lets follow the arguments from PixelCNN and discretize the
+space. 
+
+A spectrogram is a representation of audio recorded under different circumstances. Because of this
+we want to normalize them in order for them all to be more similar, i.e act as samples from a
+smaller distribution. We wish to discretize the values for each bin so in order to do that we need
+to normalize the spectrograms in a min-max fashion.
+
+* Normalize
+  - min-max normalize a speaker recording (over the entire recording) and then discretize each frequency channel into N bins.
+  - 8 bits $$2^8 = 256 $$,  6 bits $$2^6 = 64 $$, and so on
+  - A common size of a mel spectrogram is 80 channel
+  - 8 bits * 80 channels = 640 bits / frame -> $$2^{640} \approx 4.56e+192 $$ different states
+* Discretize
+  - The total space of each frame is huge
+  - Following the Melnet paper we define an order, i.e dependency, (e.g low to high frequency). 
+  - RNN conditioned on encoding of previous information start from low and given the previous value output the next for $$n_{mels}$$ steps.
+
+<div class='row'>
+  <div class='column'>
+    <b> Discrete Spectrogram vs normal </b>
+    <img class='centerImg' src="/images/cnn/discreteSpectrograms.png" alt="" width="100%"/>
+  </div>
+  <div class='column'>
+    <b> A single Frame</b>
+    <img class='centerImg' src="/images/cnn/discreteSpectrogramsCategories.png" alt="" width="100%"/>
+  </div>
+</div>
+
+How well does the simple CNN encoder do at spectrogram generation? (hard task so we do not expect that much)
+
+
+#### Model
+
+* Encode the history with the causal 1D-CNN-Encoder
+* The output of the encoder initializes the hidden state of an RNN
+* The RNN autoregressively generate the output frame
+  - Teacher forcing ?
+
+
+
+## Reconstruct the already known
+
+* Reconstrcut receptive field. 
+  * Each representation should include the acoustic information in the
+    receptive field.
 * What is the receptive field for the latent space for any given time step?
 * What information in the receptive field are we interested in? Reconstruct
 * VQVAE
 * CPC
-
-Okay so now we have a Causal 1D-Conv encoder. How do we know what metrics to use? 
-
-
 
 
 ## Test
