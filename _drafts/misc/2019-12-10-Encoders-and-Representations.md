@@ -226,7 +226,7 @@ see more clearly.
 
 ## Stacks of Causal (dilated) CNNs
 
-Given that we now may process information casually we need to define how our encoder atchitecture. A
+Given that we now may process information causally we need to further define our encoder atchitecture. A
 common "block" in many convolutional networks is the "ResNet block" introduced in [Deep Residual
 Learning for Image Recognition, He et al 2015](https://arxiv.org/pdf/1512.03385.pdf). In both
 [VQVAE](https://arxiv.org/pdf/1711.00937.pdf, vad den Oord) and [VQVAE
@@ -238,7 +238,7 @@ connection. (The image below is from the resnet paper).
 
 <img class='centerImg' src="/images/cnn/ResnetBlock.png" alt="" width="50%"/>
 
-Lets construct a casual ResNet Block and test that causality holds. In the images below we see the
+Lets construct a causal ResNet Block and test that causality holds. In the images below we see the
 output from multiple Casual ResNet Blocks (5 layers). The outpu to the left is the randomly
 initialized output and to the right is the output initialized to all ones and all the nonzero output
 has a value of one.
@@ -339,27 +339,191 @@ What to reconstruct?
 
 
 
-## Probabilistic Autoregressive Model
+## Probabilistic Autoregressive Model, density optimization
 
+* [PixelCNN](https://arxiv.org/pdf/1601.06759.pdf) Models images through maximum likelhood where each color channel value is defined by an $$N = 2^8$$
+    categorical distribution (softmax) 
+* [WaveNet, van den Oord, 2016](https://arxiv.org/abs/1609.03499) outputs a categorical distribution over the sample value for each timestep
+  * The catagorical ditribution is defined by a softmax over N ($$2^8 = 256 \in [0, 255] $$) categories
+  * Optimize the maximum likelihood of the data w.r.t the parameters
+  * "Because log-likelihoods are tractable, we tune hyperparameters on a validation set and can easily measure if the model is overfitting or underfitting"
 * [Melnet](https://arxiv.org/pdf/1906.01083.pdf) 
   * Factorize a joint distribution over a spectrogram x as a product over conditional distributions
   * Define an order for the conditional distributions $$ P(x) = \prod P(x_i \| x_{<i}) $$
     * Melnet define from low to high frequency for each spectrogram frame
     * They model their distribution by $$ \theta $$. Which outputs the vector $$ \theta \in R^{3K} $$.
     * A mixture of $$K$$ distributions
-    * That is $$ \theta = \{ \mu, \sigma, \pi \}^{K}_{k=1}$$
+    * That is $$ \theta = \{ \mu, \sigma, \pi \}^{K}_{k=1}$$gg
     * Constraints on the outputs to define "simple" Gaussian Misxtures
       * linear for mean $$\mu $$, Sigmoid for $$\sigma$$ positive standard deviations and mixture
           coefficients $$\pi$$ summing to one by a softmax
   * Have the parameters be defined by the maximum likelihood estimate with regard to the data
   * This maximum likelihood estimation of parameters is the same as optimizing the negative log
       likelihood 
-* [WaveNet, van den Oord, 2016](https://arxiv.org/abs/1609.03499) outputs a categorical distribution over the sample value for each timestep
-  * The catagorical ditribution is defined by a softmax over N ($$2^8 = 256 \in [0, 255] $$) categories
-  * Optimize the maximum likelihood of the data w.r.t the parameters
-  * "Because log-likelihoods are tractable, we tune hyperparameters on a validation set and can easily measure if the model is overfitting or underfitting"
-* [PixelCNN](https://arxiv.org/pdf/1601.06759.pdf) Models images through maximum likelhood where each color channel value is defined by an $$N = 2^8$$
-    categorical distribution (softmax) 
+
+### [VQVAE 2]( https://arxiv.org/pdf/1906.00446.pdf )
+
+Much is paraphrased or directly quoted from the paper.
+
+
+* VQVAE models can be "better" understood as a communications system.
+    - Why is communication viewpoint advantageuous over ... What are the alternative view points?
+* An Encoder maps Observations onto a sequence of discrete variables.
+* A Decoder that reconstructs the observations from discrete variables.
+* Encoder/Decoder uses a shared codebook
+* Compare output vector of encoder with codes in the codebook (prototypes)
+    - distance metric
+* The encoder output vector is quantized into indicies, an index, of the shared codebook 
+* The Decoder reads the index, gets the prototype code then generates an output
+    - the output can be reconstruction of the input, partial parts of the input, missing things in
+        the input, etx
+    - The output can be to generate future segments (becomes autoregressive)
+* The output loss of the Decoder (can be reconstruction or next frame(partial input)) is
+    backpropagated to learn the mappings
+* I goes from the decoder to the encoder via the "straight-through" gradient estimator
+
+The loss used is the reconstruction mean square error to learn the appropriate mappings for
+reconstruction. The generative or reconstructive capabilities measured in $$L_{capabilities}$$
+
+
+$$ L_{capabilities} = \| \mathbf{x} - D(\mathbf{e}) \| ^2_2$$ 
+
+Then adds two auxiliary losses used to regularize the learning. 
+
+> "The *codebook loss*, which only applies to the codebook variables, brings the selected codebook
+> $$\mathbf{e}$$ close to the output of the encoder, $$E(\mathbf{x})$$." 
+
+
+$$ L_{codebook} = \| sg(E(\mathbf{x})) - \mathbf{e}) \| ^2_2$$ 
+
+> "The *commitment loss*, which only applies to the encoder weights, encourages the output of the
+> encoder to stay close to the chosen codebook vector to prevent it from fluctuating too frequently
+> from one code vector to another"
+
+$$ L_{commitment} = \| sg(\mathbf{e}) - E(\mathbf{x}) \| ^2_2$$ 
+
+Let $$\beta$$ be a scaler controlling the reluctance to change the code corresponding to the
+encoder and $$sg(·)$$ is the straight-through gradient estimator. Then the total objective is to
+minimize the loss.
+
+$$ L(\mathbf{x}, D(\mathbf{e})) = L_{capabilities} + L_{codebook} + \beta L_{commitment} $$ 
+
+
+The codebook loss $$L_{codebook}$$ is replaced by exponential moving
+averages([VQVAE](https://arxiv.org/pdf/1711.00937.pdf, vad den Oord)) updates for the codebook as a
+replacement for the codebook loss.
+* why? meta learning updates averaged over mini batch samples
+
+### Stage 1: VQ-VAE training
+
+
+1. Map Input X to Z
+  - Z consists of to hierarchies top and bottom
+2. Quantize the top encoded vectors to a top prototype
+3. Read the top prototype and the input to encode the bottom vector 
+4. Quantize the bottom encoded vector to a bottom prototype
+5. The Decoder reads both the top code and the bottom code and reconstructs the input.
+6. Update all the parameters $$ Update(L(\mathbf{x}, \mathbf{\hat{\mathbf{x}}}))) $$ 
+  - Probably Adam
+
+
+### Causal VQVAE
+
+The original VQVAE2 networks encodes a color image $$(3, 256, 256 )$$ down to a top and bottom
+representation of size $$(32, 32)$$ and $$(64, 64)$$ respectively. Then discretizes the
+representations to codes stored in a codebook(learnable), one for the top codes and one for the
+bottom. Then decodes those discrete repesentations through a decoder (residual stacks and
+ConvTranspose) in order to reconstruct the original image. 
+
+For our purposes we wish to compress a melspectrogram, $$(1, Time, 80)$$, where 80 is the number of
+mel channels used. We want to quantize the data in a causal way such that no encoding at any time
+step depends on future frames. Given that the input data is of the form $$(Batch, Channels, Height,
+Width)$$, the way PyTorch defines it for their Conv2d, we want to compress the information such that
+no information in the reconstructed output depends on any information above the current "height". Of
+course height and width are just words and all we care about is that the information at $$(B, 1, t_0,
+N_{mels})$$ does not depend on $$(B, 1, t_1, N_{mels})$$ for any $$ t_1 > t_0 $$.
+
+
+**Cuda vs Cpu ?**
+
+Using Cuda for the convolutional operation seems to introduce a small problem. By default our causal
+network does not work. When using CPU the gradient looks as expected, however, using `to('cuda')`
+changes the gradient for the worse. For cuda the receptive field and the gradient interval is larger
+but worse the gradient at time step 50 depends on future frames. It seems that pytorch requires
+`torch.backend.cudnn.deterministic=True` to work properly for causal implementation.
+
+
+<div class='row'>
+  <div class='column'>
+    <b>CPU</b>
+    <img class='centerImg' src="/images/cnn/vqvae_encoding_grad_cpu.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='column'>
+    <b>cudnn.deterministic=False</b>
+    <img class='centerImg' src="/images/cnn/vqvae_encoding_grad_cuda.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='column'>
+    <b>cudnn.deterministic=True</b>
+    <img class='centerImg' src="/images/cnn/vqvae_encoding_grad_cuda_deterministic.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+**Moving on**
+
+Now when the cuda causality error is out of the way we change the Encoder part of the VQVAE to only
+use causal Convolutions and residual stacks. The hierarchical nature of the algorithm works by first
+encoding the input into a bottom representation and a top representation. The bottom being
+downsampled by a factor of 4 (in $$N_{mels}$$) and the top representation downsamples the bottom
+representation further by 2(in $$N_{mels}$$), that is 8 in total. 
+
+The top representation is then fed through a convolutional layer with a kernel size of 1 in order to
+have the same numbers of channels as the dimensionality of codes in the codebook. This
+representation is then compared to the codes in the codebook, through a distance metric (MSE), and
+the closest code, for each time and frequency element, is chosen for the quantized representation.
+
+The quantized top representation is then decoded, through a residual stack and a convtranspose
+layer, back to the shape of the bottom representation. This decoded top representation is then
+concatenated with the bottom representation.
+
+This combined representation, like the top representation, is passed through a Conv2d with a kernel
+size of 1 to match the dimensionality of the codebook. The quantization is done in the same way as
+for the top, albeit with another codebook, to produce a quantized representation for the bottom
+features.
+
+In the original implementation the top and bottom quantized tensors are fed through the decoder to
+reconstruct the input image. However, for our purposes we need to check that the encoder works as we
+hope, is it causal?
+
+Below are the gradients for the top and bottom quantized encoder output respectively.
+
+<div class='row'>
+  <div class='column'>
+    <b>Bottom</b>
+    <img class='centerImg' src="/images/cnn/vqvae_encoder_bottom_rf.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='column'>
+    <b>Top</b>
+    <img class='centerImg' src="/images/cnn/vqvae_encoder_top_rf.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+The gradient is calculated with respect to the output at the time step indicated by the black line
+(step 30). The output, the top of the images, is the first value of the 64 dim code for each time
+step. The bottom representation contains 20 codes at each time step $$n_{mels} = 80 \to 20$$ and the
+top representation contains 10 codes $$n_{mels} = 80 \to 10$$. In other words, each time step
+contains 20 and 10 codes for the bottom and top representation respectively.
+
+
+The receptive fields are not the same for the top and the bottom representations? Why?
+
+Now, the next question is what we wish these codes should represent?
+
+* Can the $$ (20+10) \times code_{dim}$$ reconstruct the entire receptive field?
+  * If not how many frames, inside the receptive field closest to the current frame, can it
+      reconstruct?
+* Can this discrete latent code be used in an autoregressive way?
+    - Can the representations from each step generate the next frame?
+
 
 
 ## Setup
