@@ -360,6 +360,10 @@ What to reconstruct?
   * Have the parameters be defined by the maximum likelihood estimate with regard to the data
   * This maximum likelihood estimation of parameters is the same as optimizing the negative log
       likelihood 
+### [PixelCNN](https://arxiv.org/pdf/1601.06759.pdf) & [Conditional Image Generation with PixelCNN Decoders](https://arxiv.org/pdf/1606.05328.pdf)
+
+
+### [WaveNet, van den Oord, 2016](https://arxiv.org/abs/1609.03499)
 
 ### [VQVAE 2]( https://arxiv.org/pdf/1906.00446.pdf )
 
