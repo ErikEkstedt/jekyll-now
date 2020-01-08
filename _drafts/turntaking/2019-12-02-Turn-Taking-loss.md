@@ -98,8 +98,7 @@ As we see in the images above the total space of classes is sparse. This makes s
 imagine some combination of states that will not be ordered consecutively e.g 'only_speaker0, pause,
 only_speaker1' because that combine state is impossible given our definitions.
 
-The most commom distributions are
-
+### Top 10 most common classes
 
 Switchboard labels
 
@@ -113,16 +112,6 @@ Switchboard labels
 8. class: 50 (2.0%): ['only_speaker_1', 'pause', 'pause']
 9. class: 85 (1.97%): ['pause', 'pause', 'only_speaker_1']
 10. class: 84 (1.97%): ['pause', 'pause', 'only_speaker_0']
-11. class: 14 (1.95%): ['only_speaker_0', 'pause', 'pause']
-12. class: 12 (1.51%): ['only_speaker_0', 'pause', 'only_speaker_0']
-13. class: 49 (1.47%): ['only_speaker_1', 'pause', 'only_speaker_1']
-14. class: 3 (1.07%): ['only_speaker_0', 'only_speaker_0', 'gap']
-15. class: 129 (0.991%): ['gap', 'gap', 'gap']
-16. class: 45 (0.941%): ['only_speaker_1', 'only_speaker_1', 'gap']
-17. class: 115 (0.861%): ['gap', 'only_speaker_1', 'only_speaker_1']
-18. class: 108 (0.859%): ['gap', 'only_speaker_0', 'only_speaker_0']
-19. class: 42 (0.69%): ['only_speaker_1', 'only_speaker_1', 'only_speaker_0']
-20. class: 1 (0.669%): ['only_speaker_0', 'only_speaker_0', 'only_speaker_1']
 
 Maptask labels
 
@@ -136,16 +125,89 @@ Maptask labels
 8. class: 14 (3.6%): ['only_speaker_0', 'pause', 'pause']
 9. class: 3 (2.9%): ['only_speaker_0', 'only_speaker_0', 'gap']
 10. class: 21 (2.28%): ['only_speaker_0', 'gap', 'gap']
-11. class: 12 (2.18%): ['only_speaker_0', 'pause', 'only_speaker_0']
-12. class: 108 (2.05%): ['gap', 'only_speaker_0', 'only_speaker_0']
-13. class: 126 (1.9%): ['gap', 'gap', 'only_speaker_0']
-14. class: 127 (1.86%): ['gap', 'gap', 'only_speaker_1']
-15. class: 57 (1.72%): ['only_speaker_1', 'gap', 'gap']
-16. class: 115 (1.57%): ['gap', 'only_speaker_1', 'only_speaker_1']
-17. class: 45 (1.55%): ['only_speaker_1', 'only_speaker_1', 'gap']
-18. class: 79 (1.0%): ['pause', 'only_speaker_1', 'only_speaker_1']
-19. class: 19 (0.993%): ['only_speaker_0', 'gap', 'only_speaker_1']
-20. class: 54 (0.97%): ['only_speaker_1', 'gap', 'only_speaker_0']
+
+
+### Symmetric
+
+However, which speaker it is is not important for our purposes so lets investigate how the
+distributions look when also adding in the reverse order for the speakers. This will equalize the
+time for the classes dependent on specific speakers but only double the rest of the states (they are
+independent of the index of the speakers, e.g gaps/pauses).
+
+Here we see that the amount of time spent in mutual silence (pauses and gaps) are larger for the
+maptask dataset. This seems natural since switchboard is telephone conversation on "everyday" topics
+while maptask is recorded while looking and understanding maps and routes.
+
+<div class='row'>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/swb_hist_classes_symmetric.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/mt_hist_classes_symmetric.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/swb_hist_labels_f18_b3_symmetric.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/mt_hist_labels_f18_b3_symmetric.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+### Top 10 most common classes
+
+Switchboard labels
+
+1. class: 43 (25.0%): ['only_speaker_1', 'only_speaker_1', 'only_speaker_1']
+2. class: 0 (25.0%): ['only_speaker_0', 'only_speaker_0', 'only_speaker_0']
+3. class: 79 (3.17%): ['pause', 'only_speaker_1', 'only_speaker_1']
+4. class: 72 (3.12%): ['pause', 'only_speaker_0', 'only_speaker_0']
+5. class: 86 (3.07%): ['pause', 'pause', 'pause']
+6. class: 44 (3.06%): ['only_speaker_1', 'only_speaker_1', 'pause']
+7. class: 2 (2.94%): ['only_speaker_0', 'only_speaker_0', 'pause']
+8. class: 50 (2.01%): ['only_speaker_1', 'pause', 'pause']
+9. class: 85 (1.99%): ['pause', 'pause', 'only_speaker_1']
+10. class: 84 (1.96%): ['pause', 'pause', 'only_speaker_0']
+
+Maptask labels
+
+1. class: 43 (14.4%): ['only_speaker_1', 'only_speaker_1', 'only_speaker_1']
+2. class: 0 (14.4%): ['only_speaker_0', 'only_speaker_0', 'only_speaker_0']
+3. class: 129 (7.7%): ['gap', 'gap', 'gap']
+4. class: 86 (7.53%): ['pause', 'pause', 'pause']
+5. class: 79 (3.0%): ['pause', 'only_speaker_1', 'only_speaker_1']
+6. class: 72 (2.96%): ['pause', 'only_speaker_0', 'only_speaker_0']
+7. class: 44 (2.68%): ['only_speaker_1', 'only_speaker_1', 'pause']
+8. class: 2 (2.52%): ['only_speaker_0', 'only_speaker_0', 'pause']
+9. class: 50 (2.31%): ['only_speaker_1', 'pause', 'pause']
+10. class: 85 (2.26%): ['pause', 'pause', 'only_speaker_1']
+
+### Top 100 sorted (percentages)
+<div class='row'>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/swb_classes_top100.png" alt="ALL" style='width: 90%'>
+    <center> % </center>
+  </div>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/mt_classes_top100.png" alt="ALL" style='width: 90%'>
+    <center> % </center>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/swb_classes_top100_log.png" alt="ALL" style='width: 90%'>
+    <center> Log </center>
+  </div>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/mt_classes_top100_log.png" alt="ALL" style='width: 90%'>
+    <center> Log </center>
+  </div>
+</div>
+
+
 
 
 ## Distill voice activation to context classes
