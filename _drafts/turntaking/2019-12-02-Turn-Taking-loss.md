@@ -25,13 +25,13 @@ done.
 * Optimize the prediction
 
 
-$$ \frac{1}{100} = 4 $$
-
 Regression
 * We have the ground truth of speech in frames
-* We optimize the MSELoss, $$ \frac{1}{N} \sum_{N} (y_{prediction} - y)^2 $$
-Classification
-- Two classes speech/no-speech
+* We optimize the MSELoss, 
+
+  $$ \frac{1}{N} \sum_{N} (y_{prediction} - y)^2 $$
+
+* Two classes speech/no-speech [0, 1]
 
 
 **Problems:**
