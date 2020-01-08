@@ -54,70 +54,98 @@ Classification
 
 ## Learn future Turn-Taking states
 
-Lets see if we may divide the binary state space of each channel (four states)
-into states with information more absolute. The first distinction we can make is
-to determine, for each channel, if it is currently speaking or not. This yields
-$$  n_{channels}^2 $$  possible states. For our purposes we have 2 channels
-resulting in 4 states $$\{(0,0),(0,1),(1,0),(1,1)\} $$ . Now we are interested
-in information regarding the future of the conversation. Lets discretize the
-future in to specific states. Lets pick 0.5 seconds as our reference time and
-say that we are interested in the next 2 seconds, that is 4 discrete times (0,
-.5], (.5 1], (1 1.5], (1.5 2]. Lets also add a bin for "later" ($$ \to \infty $$). This
-gives us 5 possible time states. So far so good.
+Discrete states of a dialog. Edlund paper [Pauses, gaps and overlaps in Conversations, Heldner, Edlund 2010](http://www.speech.kth.se/prod/publications/files/3418.pdf)
 
-Given the first 4 states, speaking/no-speaking, we want to get the correct time
-bin for when the speaker stops speaking and when the listener starts speaking.
-Lets say that channel 0 is currently speaking and channel 1 is currently
-listening. Now, the future state we construct should tell us when speaker 0 stops
-speaking and speaker 1 stops being quiet. For our purposes lets say that speaker
-0 stops talking 1.3 seconds and speaker 1 starts talking 1.7 seconds from the
-current frame respectively. We have four rows (combination of speakers
-speaking/no-speaking), five columns (the time slots) and the resulting state
-would then be:
-
-![State of conversation](../../images/tt_loss/state.png)
-
-Where the rows correspond to speaker0 speaking, speaker1 speaking, speaker0
-listens, speaker1 listens. The columns correspond to the time slots and the 1
-values indicate where the feature of the current line stops. Speaker 0 stops
-speaking 1.3 seconds from now (row 1, column 3) and speaker 1 stops being quiet 1.7
-seconds from now (row 4, column 4). The last column means that the feature row
-does not stop in "any forseeable future".
-
-Now, how many combination of states do we get? We have 4 possible starting
-states, $$n_{channels}^2$$, where each of these contain exactly 2 rows with
-one value of one each. Each row has 5 columns$$n_{time}$$  and therefore we
-can have $$n_{time} * n_{time}$$ or $$n_{time}^2$$  possible
-permutations, and for this example this becomes $$ 25 (5^2) $$. The total states is
-therefore 4*25=100. Or in more general terms $$N_{states} = n_{channels}^2 * n_{time}^2$$ 
-possible future states.
-
-Now we do not need to care about this specific states as rows and columns
-containing ones and zeros but just the fact that we have $$N_{states})$$ 
-possible output classes. In a way what we have constructed is a discretized
-version of the conversation, with regard to turn-taking, who and when someone
-speaks and listens. We could view these independent states as the next "words"
-or "labels" in our turn-taking text and may train a network to output the
-probabilities associated with either of these future "words", a language model
-for turn-taking!
-
-Now we have a 100 output classes and can optimize the model the maximize the
-log-likelihood asssociated with each label/word/state.
+<img class='centerImg' src="/images/turntaking/tt_discrete/edlund_states.png" alt="ALL" style='width: 90%'>
 
 
+This yields 6 general classes for defining a conversation with regards to turn taking.
+1. Only the first speaker is active
+2. Only the second speaker is active
+3. Silence in between utterance of the same speaker "Pauses"
+4. Silence in between utterance of different speakers "Gaps"
+5. Overlap between
+6. Overlap within
+
+Below we see the distribution from switchboard and maptask.
+
+<div class='row'>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/swb_hist_classes.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/mt_hist_classes.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+Given a prediction window (e.g 18 50ms frames) we can define a joint distribution combining
+$$n_{bins}$$ bins. Given that we have 6 state for each frame this yields a distribution of $$
+n_{frames}^{n_{bins}}$$ classes. If $$n_{bins} == n_{frames}$$ then we do not downsample the states
+but for $$n_{bins} \leq n_{frames}$$ we loose some information but the number of total states
+drastically change. As a starting point we model the 18 prediction frames as 3 bins which yields
+$$r^6=216$$ classes.
+
+<div class='row'>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/swb_hist_labels_f18_b3.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='column'>
+    <img class='centerImg' src="/images/turntaking/tt_discrete/mt_hist_labels_f18_b3.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+As we see in the images above the total space of classes is sparse. This makes sense because we may
+imagine some combination of states that will not be ordered consecutively e.g 'only_speaker0, pause,
+only_speaker1' because that combine state is impossible given our definitions.
+
+The most commom distributions are
 
 
+Switchboard labels
 
+1. class: 0 (25.4%): ['only_speaker_0', 'only_speaker_0', 'only_speaker_0']
+2. class: 43 (24.6%): ['only_speaker_1', 'only_speaker_1', 'only_speaker_1']
+3. class: 72 (3.16%): ['pause', 'only_speaker_0', 'only_speaker_0']
+4. class: 79 (3.13%): ['pause', 'only_speaker_1', 'only_speaker_1']
+5. class: 86 (3.07%): ['pause', 'pause', 'pause']
+6. class: 44 (3.02%): ['only_speaker_1', 'only_speaker_1', 'pause']
+7. class: 2 (2.97%): ['only_speaker_0', 'only_speaker_0', 'pause']
+8. class: 50 (2.0%): ['only_speaker_1', 'pause', 'pause']
+9. class: 85 (1.97%): ['pause', 'pause', 'only_speaker_1']
+10. class: 84 (1.97%): ['pause', 'pause', 'only_speaker_0']
+11. class: 14 (1.95%): ['only_speaker_0', 'pause', 'pause']
+12. class: 12 (1.51%): ['only_speaker_0', 'pause', 'only_speaker_0']
+13. class: 49 (1.47%): ['only_speaker_1', 'pause', 'only_speaker_1']
+14. class: 3 (1.07%): ['only_speaker_0', 'only_speaker_0', 'gap']
+15. class: 129 (0.991%): ['gap', 'gap', 'gap']
+16. class: 45 (0.941%): ['only_speaker_1', 'only_speaker_1', 'gap']
+17. class: 115 (0.861%): ['gap', 'only_speaker_1', 'only_speaker_1']
+18. class: 108 (0.859%): ['gap', 'only_speaker_0', 'only_speaker_0']
+19. class: 42 (0.69%): ['only_speaker_1', 'only_speaker_1', 'only_speaker_0']
+20. class: 1 (0.669%): ['only_speaker_0', 'only_speaker_0', 'only_speaker_1']
 
+Maptask labels
 
-
-
-
-
-
-
-
-
+1. class: 0 (22.1%): ['only_speaker_0', 'only_speaker_0', 'only_speaker_0']
+2. class: 129 (7.81%): ['gap', 'gap', 'gap']
+3. class: 86 (7.42%): ['pause', 'pause', 'pause']
+4. class: 43 (6.73%): ['only_speaker_1', 'only_speaker_1', 'only_speaker_1']
+5. class: 72 (4.94%): ['pause', 'only_speaker_0', 'only_speaker_0']
+6. class: 2 (4.19%): ['only_speaker_0', 'only_speaker_0', 'pause']
+7. class: 84 (3.72%): ['pause', 'pause', 'only_speaker_0']
+8. class: 14 (3.6%): ['only_speaker_0', 'pause', 'pause']
+9. class: 3 (2.9%): ['only_speaker_0', 'only_speaker_0', 'gap']
+10. class: 21 (2.28%): ['only_speaker_0', 'gap', 'gap']
+11. class: 12 (2.18%): ['only_speaker_0', 'pause', 'only_speaker_0']
+12. class: 108 (2.05%): ['gap', 'only_speaker_0', 'only_speaker_0']
+13. class: 126 (1.9%): ['gap', 'gap', 'only_speaker_0']
+14. class: 127 (1.86%): ['gap', 'gap', 'only_speaker_1']
+15. class: 57 (1.72%): ['only_speaker_1', 'gap', 'gap']
+16. class: 115 (1.57%): ['gap', 'only_speaker_1', 'only_speaker_1']
+17. class: 45 (1.55%): ['only_speaker_1', 'only_speaker_1', 'gap']
+18. class: 79 (1.0%): ['pause', 'only_speaker_1', 'only_speaker_1']
+19. class: 19 (0.993%): ['only_speaker_0', 'gap', 'only_speaker_1']
+20. class: 54 (0.97%): ['only_speaker_1', 'gap', 'only_speaker_0']
 
 
 ## Distill voice activation to context classes
