@@ -20,7 +20,7 @@ done.
 
 * Choose prediction window of interest
 * Guess whether a frame in the prediction window contains speech or not
-* Lets pick the next 3 second window and guess the probability that each of
+* Lets pick the next $$T$$ second window comprised of $$N$$ frames and guess the probability that each of
   those frames are speech/no-speech
 * Optimize the prediction
 
@@ -29,7 +29,7 @@ Regression
 * We have the ground truth of speech in frames
 * We optimize the MSELoss, 
 
-  $$ \frac{1}{N} \sum_{N} (y_{prediction} - y)^2 $$
+  $$ \frac{1}{N} \sum_{N} (y_{n,prediction} - y_n)^2 $$
 
 * Two classes speech/no-speech [0, 1]
 
