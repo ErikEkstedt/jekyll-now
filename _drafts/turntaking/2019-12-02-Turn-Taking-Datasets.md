@@ -16,5 +16,3 @@ There are a few datasets out there
   - Task specific dialog from playing a "maptask" game
   - A 'guide' guides the 'follower' through a map with partially overlapping available
     information
-
-

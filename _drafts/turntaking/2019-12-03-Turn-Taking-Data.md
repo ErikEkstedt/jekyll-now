@@ -10,16 +10,14 @@ What kinds of data are we going to work with? How to process this data? What do 
 
 <!--more-->
 
-
 # Data
-
 
 <img src="/images/turntaking/turntaking.png" alt="ALL">
 
 
 ## Input space
 
-* Audio is sampled by pressure changes in the air. 
+* Audio is sampled by pressure changes in the air.
 * These changes are measured by a device to produce discrete values at certain time intervals
 * 1D sequence over time
 * 1D -> 2D, $$R^1 \to R^2$$, fourier transformation.
@@ -33,76 +31,75 @@ What kinds of data are we going to work with? How to process this data? What do 
         difficult to encode
 * more complex the content of the information in the audio the more other capabilities more than audio quality is needed. For simpler speech activities I would argue 4Khz is mostly enough even though here you might be bothered (and lose concentration) by the audio quality.
 
+Audio is represented digitally as waveforms, intensity samples over time, as seen below (source: [Deepmindblog](https://deepmind.com/blog/wavenet-generative-model-raw-audio/))
 
-On Deepminds [blog](https://deepmind.com/blog/wavenet-generative-model-raw-audio/) they show this gif zooming in on an audio waveform.
-<img width='200' src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig1-Anim-160908-r01.gif" alt="" align='middle'> 
-A sequence of intensity over time.  A [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform)
-decomposes the signal in to a frequency domain representation, precicely a sum over frequencies and their magnitude. A linear set of
-frequencies played with different magnitudes.
-<iframe width="200" src="https://www.youtube.com/embed/spUNpyF58BY?ecver=1" frameborder="0" allow="autoplay; encrypted-media" align='middle' allowfullscreen> All possible sounds span sound space  </iframe> 
-<iframe width="200" src="https://s3.envato.com/h264-video-previews/87821136-dccf-4270-a5a3-57f6cca7fde8/20404750.mp4" align='middle' frameborder="90" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<center>
+<img width='400' src="https://storage.googleapis.com/deepmind-live-cms/documents/BlogPost-Fig1-Anim-160908-r01.gif" alt="" align='middle'>
+</center>
+A [Fourier Transform](https://en.wikipedia.org/wiki/Fourier_transform) decomposes the signal in to a
+frequency domain representation, precicely a sum over frequencies and their magnitude. A linear set
+of frequencies with different magnitudes.
+
+<center>
+<iframe height="200" src="https://www.youtube.com/embed/spUNpyF58BY?ecver=1" frameborder="0" allow="autoplay; encrypted-media" align='middle' allowfullscreen>
+</iframe>
+<iframe height="200" src="https://s3.envato.com/h264-video-previews/87821136-dccf-4270-a5a3-57f6cca7fde8/20404750.mp4" align='middle' frameborder="90" controls='loop' allow="autoplay; encrypted-media" allowfullscreen>
+</iframe>
+</center>
 
 
 ## Acoustic Information
 
 Spectrogram Fourier transform of 1D audio (intensity) signal -> 2D frequency/power space.
+Step time: 10ms (step length of fourier transform),  window time: 50ms (window size of fourier transform)
+
+
+<div class="row">
+  <div class="column" style='flex: 45%'>
+    <center><h3> Waveform </h3></center>
+    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_waveform.png" alt="ALL" style='width: 100%'>
+  </div>
+  <div class="column" style='flex: 5%'>
+    <center>
+      <span style='font-size:100px;'>&#8594;</span>
+    </center>
+  </div>
+  <div class="column" style='flex: 45%'>
+    <center><h3> MelSpectrogram</h3></center>
+    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_spec.png" alt="ALL" style='height: 200px'>
+  </div>
+</div>
+
+
+<center>
+<div class="row">
+<div class="column">
+<video width="100%" controls>
+<source src="/images/turntaking/tt_analysis/feynman_spectrum.mp4" type="video/mp4">
+Your browser does not support the video tag.
+</video>
+</div>
+</div>
+</center>
+
+> "Nobody understands quantum mechanics"* - Richard Feynman 1964
+
 
 ### Mel-Spectrogram
 
 A melspectrogram is a constructed from a frequency power spectrogram from an audio signal mapped onto a mel space.
 The mel mapping maps frequencies into bins more akin to how humans seem to experience audio.
 
-A regular power spectrogram over 3 seconds of spoken audio
-
-
--> mapped onto the mel space
+A regular power spectrogram over 3 seconds of spoken audio -> mapped onto the mel space
 
 #### Spectrum
 
-The power for each frequency band in a single frame is a spectrum
+The power for each frequency band in a single frame is a spectrum. We note that the lower
+frequencies are more distinguishable in the mel space than in the power spectrogram. Important
+frequencies for speech such as the fundamental frequency F0 and its harmonics F1, F2 are given more
+importance in the mel space. The higher frequencies (noise) is less prominent.
 
-We note that the lower frequencies are more distinguishable in the mel space than in the power spectrogram. Important frequencies for speech such as the
-fundamental frequency F0 and its harmonics F1, F2 are given more importance in the mel space. The higher frequencies (noise) is less prominent.
-
-In Deep Learning it is very common to process melspectrograms instead of the original power specotrogram.
-
-
-## Example
-
-*"Nobody understands quantum mechanics"* - Richard Feynman 1964
-
-Parameters
-* step time: 10ms (step length of fourier transform)
-* window time: 50ms (window size of fourier transform)
-
-<div class="row">
-  <div class="column">
-    <h3> Waveform </h3>
-  </div>
-  <div class="column">
-    <h3> MelSpectrogram </h3>
-  </div>
-  <div class="column">
-    <h3> Spectrum over time</h3>
-  </div>
-</div>
-<div class="row">
-  <div class="column">
-    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_waveform.png" alt="ALL" style='height: 240px'>
-  </div>
-  <div class="column">
-    <img src="/images/turntaking/tt_analysis/nobody_understands_quantum_mechanics_spec.png" alt="ALL" style='width: 100%'>
-  </div>
-  <div class="column">
-    <video width="100%" controls loop>
-      <source src="/images/turntaking/tt_analysis/feynman_spectrum.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</div>
-
-
-# Datasets
+In Deep Learning it is very common to process melspectrograms, for speech, instead of the original power specotrogram.
 
 #### Parameters
 
@@ -119,24 +116,22 @@ Parameters
   <div class='columns'>
     <b>Switchboard</b>
     <img src="/images/turntaking/tt_analysis/spectrum_swb.png" alt="ALL" style='flex: 50%; width: 90%'>
-  </div> 
+  </div>
   <div class='columns'>
     <b>Maptask</b>
     <img src="/images/turntaking/tt_analysis/spectrum_maptask.png" alt="ALL" style='flex: 50%; width: 91%'>
-</div> 
 </div>
-
-
+</div>
 
 <div class='row'>
   <div class='columns'>
   <b>Single Dialog Speaker 0</b>
   <img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_0_(all_vs_vad_vs_novad).png" alt="Channel 0" style='flex: 50%; width: 91%'>
-  </div> 
+  </div>
   <div class='columns'>
     <b>Single Dialog Speaker 1</b>
     <img src="/images/turntaking/tt_analysis/Melspectrum_Single_Speaker_1_(all_vs_vad_vs_novad).png" alt="Channel 1" style='flex: 50%; width: 91%'>
-</div> 
+</div>
 </div>
 
 ### Intensity
@@ -148,9 +143,73 @@ Parameters
     - Avg
   - Stop Word rate
 
-Output Space
+### Output Space
+
 - VAD
+
 - Turn-taking Events
+
+# Datasets
+
+
+
+### Dialog Metrics
+
+<center> 
+
+<b>Dialog</b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/data/dialog_duration_all.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/data/speaker_ratio_all.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+<b>Gaps</b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/data/gaps_ratio_total_all.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/data/gaps_ratio_silence_all.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+<b>Total</b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/data/event_ratio_all.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/data/event_ratio_all_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+<b>Class Labels</b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_labels_1second_50ms_frames.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_labels_1second_50ms_frames_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+<b>Class Label Segment</b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_labels_segment_vad.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+</center>
 
 
 ## Conversation & Prosody
@@ -164,15 +223,15 @@ Output Space
     "It is a compendium on mini CD of four pieces created for the "1%" art and sound installation in the Ministry of Culture in Paris, France in 2004."
   </blockquote>
   <blockquote>
-    I laughed really hard one night at around 22.30 in front of my computer
+    I laughed really hard one night at around 22.30pm alone in front of my computer
     "Can you shut the door!"
   </blockquote>
   <iframe src="https://open.spotify.com/embed/track/6q6EXUhoujkQCkcAwe1jEK" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-  Music For a French and Other short format oddities, The Books, 2004 [pitchfork article](https://pitchfork.com/reviews/albums/857-music-for-a-french-elevator/)
-  We hear some conjunctions "and", "or", some other "not totally random" words but mostly it is
-  numbers. (min - max)
-
-  [Wikipedia](https://en.wikipedia.org/wiki/Music_for_a_French_Elevator_and_Other_Short_Format_Oddities_by_the_Books)
-  Wikipedia contributors. "Music_for_a_French_Elevator_and_Other_Short_Format_Oddities_by_the_Books" Wikipedia, The Free Encyclopedia. Wikipedia, The Free Encyclopedia, 20 Dec. 2019. Web. 20 Dec. 2019.
 </div>
+
+[Wikipedia](https://en.wikipedia.org/wiki/Music_for_a_French_Elevator_and_Other_Short_Format_Oddities_by_the_Books)
+
+Music For a French and Other short format oddities, The Books, 2004 [pitchfork article](https://pitchfork.com/reviews/albums/857-music-for-a-french-elevator/) We hear some
+conjunctions "and", "or", some other "not totally random" words but mostly it is numbers.
+
 
