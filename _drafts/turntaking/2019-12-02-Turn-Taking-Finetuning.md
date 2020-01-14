@@ -10,6 +10,8 @@ capability on that task?
 
 <!--more-->
 
+* class prediction model
+    - overfit on swb_root takes 2 layers 80 hidden on supermodel with all features
 
 ### TODO
 1. Evaluation method for transfer learning.
@@ -28,6 +30,8 @@ capability on that task?
 
 
 #### Small update
+
+
 
 Finetune a model by training on 1 dialog, validate on another and test on a third. Below are values
 for the 10 speakers in the dataset and the finetuning (alpha) results for 20 epochs.

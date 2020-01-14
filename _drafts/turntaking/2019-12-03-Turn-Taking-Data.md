@@ -15,6 +15,25 @@ What kinds of data are we going to work with? How to process this data? What do 
 <img src="/images/turntaking/turntaking.png" alt="ALL">
 
 
+## Conversation
+
+* Audio: spoken language
+    - 1D samples over time (fast)
+      - 2D Frequency representation over time (slower)
+          - Signal -> sum of frequencies
+          - Lossy Nyquist
+    - Prosody
+        - duration
+        - intensity
+        - pitch
+    - phonemes (slower still)
+* Text:  written language
+    - phonemes
+    - words
+    - phrases
+    - utterances / turns
+
+
 ## Input space
 
 * Audio is sampled by pressure changes in the air.
@@ -139,21 +158,98 @@ In Deep Learning it is very common to process melspectrograms, for speech, inste
 ### Pitch Semitone
 
 ### Words
-  - Glove Embedding
-    - Avg
-  - Stop Word rate
-
-### Output Space
-
-- VAD
-
-- Turn-taking Events
-
-# Datasets
+* Total Vocabulary over datasets
+* top 100 words 
+* Define stopwords ~100-300
+* Distribution of stopwords in dialogs
+* Stop Word rate
+* Glove Embedding
+  * Avg
 
 
+### Conversation
 
-### Dialog Metrics
+* Taking/Yielding Turns
+* Heuristics
+  * Minimize silence ?
+  * Minimize talking over each other ?
+  * Convey/Recieve information ?
+* Understanding and Coordinating
+  - Dance - timing
+  - Beats - duration
+  - Music - prosody
+  - Why do people like rap/spoken word? Rhymes?
+
+
+### Dialog
+
+A conversation with only 2 interlocutors. Less possabilities, Less Coordination required.
+
+* What is the context?
+    - Games
+    - Work
+    - Casual
+    - Familiarity with the other
+* What is being talked about?
+* What is the intent of the other? The joint intent of the conversation?
+* Dialog Acts/Speech Acts
+* Explanations, Questions, Statements
+* Sentiment
+
+
+I predict what you are saying by infering what I think you mean. I simultaniously associate your
+meaning to by own based on some convergence between what I intent/want and mean and what I infer
+that you intend and mean, given some notion of uncertainty I have about all preceding "objects", and
+decide on what actions to implement now or later (perhaps even what I should have implemented
+before).
+
+Close friendship: If I want you to feel good and I want you to be happy and I am willing to invest in a certain amount of energy into making that a reality and actually do it, I might like you you might be really close to me.
+
+
+Lots of associations any given moment. Lucky for us that are brains are highly parallel.
+
+### Brains
+
+* Energy Efficient
+* Evolutionary designed
+  * Purpose driven (in a sense)
+  * Traits that are favourable for gene survival (procreation by proxy), Selfish Gene
+* Generates behaviour
+  - Sapolsky
+
+The brain is very sparse
+
+* Reptile Brain / Old Brain
+* Neocortex (mammals)
+    - Homogenous
+    - Smallest unit of replication -> cortical columns
+        - Excitory cells
+        - Inhibitory cells
+        - Grid Cells
+    - Numenta (Thousand Brain Theory)
+* Units of replication
+    - Predictive
+    - Sparse
+    - NOISY <-> Noise robust
+      - unreliable
+      - chemistry
+      - cells and concentrations in biological systems are not perfect... at all.
+* Predictability -> Unsupervised Learning
+    - Movement
+    - Saccades
+    - action control
+    - Know what you are about to experience given what your are going to do.
+    - Generates lots of data
+* Dendrites & Axons
+* Connectome
+* Very many representations possible given the interconnectivety between and the number of neurons
+* One representation for each "state" in your life
+    - grid cells
+    - sparse
+
+## Output Space
+
+### Dataset Dialog Metrics
 
 <center> 
 
@@ -179,18 +275,28 @@ In Deep Learning it is very common to process melspectrograms, for speech, inste
   </div>
 </div>
 
-<b>Total</b>
+<b>Total Frames, 10ms</b>
 
 <div class='row'>
   <div class='columns'>
-    <img src="/images/turntaking/data/event_ratio_all.png" alt="ALL" style='flex: 50%; width: 99%'>
+    <img src="/images/turntaking/labels/class_states_10ms_frames.png" alt="ALL" style='flex: 50%; width: 99%'>
   </div>
   <div class='columns'>
-    <img src="/images/turntaking/data/event_ratio_all_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
+    <img src="/images/turntaking/labels/class_states_10ms_frames_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
   </div>
 </div>
 
-<b>Class Labels</b>
+<b>Total Frames combine overlap, 10ms</b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_5states_1second_10ms_frames.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_5states_1second_10ms_frames.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+<b>Class Labels, 50ms frames, 1s prediction</b>
 
 <div class='row'>
   <div class='columns'>
@@ -201,13 +307,43 @@ In Deep Learning it is very common to process melspectrograms, for speech, inste
   </div>
 </div>
 
-<b>Class Label Segment</b>
+
+<b>Class Labels, 10ms frames, 1s prediction</b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_labels_1second_10ms_frames.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_labels_1second_10ms_frames_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+
+<b>Class Label Segment, 50ms frames, 1s prediction</b>
 
 <div class='row'>
   <div class='columns'>
     <img src="/images/turntaking/labels/class_labels_segment_vad.png" alt="ALL" style='flex: 50%; width: 99%'>
   </div>
 </div>
+
+<b>Class Labels combine overlap, 10ms frames, 1s prediction</b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_5labels_1second_10ms_frames.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_5labels_1second_10ms_frames_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/labels/class_5labels_segment_vad.png" alt="ALL" style='flex: 50%; width: 99%'>
+  </div>
+</div>
+
+
 
 </center>
 
