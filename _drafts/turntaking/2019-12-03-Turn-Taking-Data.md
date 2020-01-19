@@ -247,7 +247,6 @@ The brain is very sparse
     - grid cells
     - sparse
 
-## Output Space
 
 ### Dataset Dialog Metrics
 
