@@ -55,21 +55,14 @@ Edlund classes respectively.
 
 1. Learn by predicting the next state given previous -> a Turn-Taking "Language" Model.
 2. Learn bypredicting the next $$N_h$$ frames, where $$h$$ is the horizon, the number of frames to predict in the future
+  - Assumption: IID for all the outputs
+  - Otherwise combine bits -> n frames -> 2^n =
 
 <center>
 <b>Loss and Accuracy</b>
 <div class='row'>
   <div class='columns'>
     <img src="/images/turntaking/experiment1/exp1_loss_acc.png" alt="ALL" style='width: 80%'>
-  </div>
-</div>
-</center>
-
-<center>
-<b> Weighted Fscore</b>
-<div class='row'>
-  <div class='columns'>
-    <img src="/images/turntaking/experiment1/exp1_fscore_weight.png" alt="ALL" style='width: 80%'>
   </div>
 </div>
 </center>
@@ -82,6 +75,16 @@ Edlund classes respectively.
   </div>
 </div>
 </center>
+
+<center>
+<b> Weighted Fscore</b>
+<div class='row'>
+  <div class='columns' style='flex: 100%'>
+    <img src="/images/turntaking/experiment1/exp1_fscore_weight.png" alt="ALL" style='width: 50%'>
+  </div>
+</div>
+</center>
+
 
 ### Inference
 
@@ -118,4 +121,56 @@ Generation of turntaking from the red line. All samples are from the same audio.
   </div>
 </div>
 </center>
+
+
+## Experiment 4
+
+
+Generate higher level representation of Conversation.
+
+
+#### Causal VQVAE2
+
+* Listen and compare the reconstructed audio with gt
+* Low pass filter -> listen and compare
+* Evaluate performance on generated melspec vs ground truth on Experiment 2
+* Learn the prior over latent codes (algorithm 2)
+  * How does the generated differ from the ground truth. Nonsense?
+
+* Improvements
+    - Learn a joint higher level code for a dialog
+        - Condition the top+bottom codes on this conversational code
+        - Look at generated dialogs
+    - Condition the model on text tokens
+
+<center>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/vqvae_codebook_30swb.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/vqvae_loss_30swb.png" alt="ALL" style='width: 80%'>
+  </div>
+</div>
+</center>
+
+<center>
+<b> Causal VQVAE2 Algorithm 1 </b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_1.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_2.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_3.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_4.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_5.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_6.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_7.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_8.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_9.png" alt="ALL" style='width: 80%'>
+    <img src="/images/turntaking/tt_cnn/vqvae2/codebook_10.png" alt="ALL" style='width: 80%'>
+  </div>
+</div>
+</center>
+
+
+
 
