@@ -47,16 +47,34 @@ Exp
 We are interested in states so lets try and learn those directly
 
 
-Learn $$ P(s_t | s_{t>}) $$ where $$ s_t \in S_v, S_e $$ where $$S_v$$, $$S_v$$ is the vad and
-Edlund classes respectively.
+---------------
 
+**Learn the single frame prediction:**
+
+$$ P(s_t | s_{t>}) $$ 
+
+where $$ s_t \in S_v, S_e $$ where $$S_v$$, $$S_v$$ is the vad and Edlund classes respectively. Well defined conditional probability distribution.
+
+--------------
+
+**Learn mulitple frames prediction:**
+
+$$ P(s'_t | s_{t>}), s'_t = \{s_t, s_{t+1}, ..., s_{t+h} \} $$ 
+
+where $$h$$ is the number of future frames to predict. Assumption: IID for all the outputs, The different output frames are not dependent on the previous output frame in each given future prediction.
+
+--------------
+
+**Learn single label multiple frame prediction:**
+
+$$ P(y_t | s_{t>}), y_t \in Y $$
+
+where Y is constructed by combining $$\{s_0, s_1,...,s_h\}$$ consecutive frames into $$ 2^h$$ distinct classes.
+
+--------------
 
 ## Training 
 
-1. Learn by predicting the next state given previous -> a Turn-Taking "Language" Model.
-2. Learn bypredicting the next $$N_h$$ frames, where $$h$$ is the horizon, the number of frames to predict in the future
-  - Assumption: IID for all the outputs
-  - Otherwise combine bits -> n frames -> 2^n =
 
 <center>
 <b>Loss and Accuracy</b>
