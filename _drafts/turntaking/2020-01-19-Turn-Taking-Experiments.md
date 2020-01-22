@@ -11,12 +11,14 @@ Exp
 
 
 ## Introduction
-
 * States of Turn-Taking
 * Distribution over states and datasets
     - MT
     - SWB
     - Robot
+* Likelihood training
+* Continuous, Predictive, Autoregressive
+* Representation
 
 <center>
 <div class="row">
@@ -41,6 +43,12 @@ Exp
 </div>
 </center>
 
+
+## 
+
+
+
+
 ### Experiment 1
 
 
@@ -51,7 +59,7 @@ Learn $$ P(s_t | s_{t>}) $$ where $$ s_t \in S_v, S_e $$ where $$S_v$$, $$S_v$$ 
 Edlund classes respectively.
 
 
-## Training 
+## Vad States 
 
 1. Learn by predicting the next state given previous -> a Turn-Taking "Language" Model.
 2. Learn bypredicting the next $$N_h$$ frames, where $$h$$ is the horizon, the number of frames to predict in the future
@@ -121,6 +129,79 @@ Generation of turntaking from the red line. All samples are from the same audio.
   </div>
 </div>
 </center>
+
+
+### Contextual Vad States (Edlund)
+
+* None -> Pauses, Gaps
+* Both -> overlap (within, between)
+* 5 states 2.32 bits, 6 states 2.58 bits (correct?)
+
+
+<center>
+<b>Loss and Accuracy</b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/" alt="ALL" style='width: 80%'>
+  </div>
+</div>
+</center>
+
+<center>
+<b>Fscore</b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/" alt="ALL" style='width: 80%'>
+  </div>
+</div>
+</center>
+
+<center>
+<b> Weighted Fscore</b>
+<div class='row'>
+  <div class='columns' style='flex: 100%'>
+    <img src="/images/turntaking/experiment1/" alt="ALL" style='width: 50%'>
+  </div>
+</div>
+</center>
+
+
+### Inference
+
+Generation of turntaking from the red line. All samples are from the same audio. 
+<center>
+<b> 1 Prediction Frames </b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/0_Vad_T1_greedyFalse_pred_frames1_a.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/0_Vad_T1_greedyFalse_pred_frames1_b.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/0_Vad_T1_greedyFalse_pred_frames1_c.png" alt="ALL" style='flex: 50%; width: 80%'>
+  </div>
+</div>
+</center>
+
+<center>
+<b> 5 Prediction Frames </b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/pred_frames_5/0_Vad_T1_greedyFalse_pred_frames5_a.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_5/0_Vad_T1_greedyFalse_pred_frames5_b.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_5/0_Vad_T1_greedyFalse_pred_frames5_c.png" alt="ALL" style='flex: 50%; width: 80%'>
+  </div>
+</div>
+</center>
+
+<center>
+<b> 10 Prediction Frames </b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/pred_frames_10/0_Vad_T1_greedyFalse_pred_frames10_a.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_10/0_Vad_T1_greedyFalse_pred_frames10_b.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_10/0_Vad_T1_greedyFalse_pred_frames10_c.png" alt="ALL" style='flex: 50%; width: 80%'>
+  </div>
+</div>
+</center>
+
 
 
 ## Experiment 4
