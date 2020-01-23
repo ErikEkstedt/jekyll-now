@@ -44,11 +44,6 @@ Exp
 </center>
 
 
-## 
-
-
-
-
 ### Experiment 1
 
 
@@ -115,6 +110,7 @@ where Y is constructed by combining $$\{s_0, s_1,...,s_h\}$$ consecutive frames 
 ### Inference
 
 Generation of turntaking from the red line. All samples are from the same audio. 
+
 <center>
 <b> 1 Prediction Frames </b>
 <div class='row'>
@@ -125,6 +121,73 @@ Generation of turntaking from the red line. All samples are from the same audio.
   </div>
 </div>
 </center>
+
+The plots above at least looks like they generate the same distribution as the data. However, when
+predicting the next frame the current frame contains alot of information about the next. Thus it is
+"easy" for a model to exploit the local smoothness of the conversational state and (almost) alwasy
+guess the current value as the prediction value. Most of the states continue for a "longer" range
+and so it is only at the state shifts that the distribution is "hard" to learn.
+
+What kind of distribution do we get if we start from all the different starting states (4) and
+generate for 100 steps? Lets do this for the temperature sampling approach (as above) and with a
+greedy approach. What kinds of distributions do we get?
+
+<center>
+<div class='row'>
+  <div class='columns' style='flex:33%'> <center> <b>Greedy (1000 steps)</b> </center> </div>
+  <div class='columns' style='flex:33%'> <center> <b>Temp 1 sampling (100 steps)</b> </center> </div>
+  <div class='columns' style='flex:33%'> <center> <b>labels (tmp swb root)</b> </center> </div>
+</div>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/initial_states_greedy_100frames.png" alt="ALL" style='flex: 50%; width: 97%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/initial_states_Temp1_100frames.png" alt="ALL" style='flex: 50%; width: 97%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/train_label_distribution_temp.png" alt="ALL" style='flex: 50%; width: 97%'>
+  </div>
+</div>
+</center>
+
+Here we see that with temperature sampling we get a similar distribution but while doing a greedy
+sampling we don't. The greedy approach kept on predicting the current state for each of the initial
+states.
+
+
+Lets pass a dialog segment through the network and see how the probabilities and likelihood (the
+probability given for the actual answer) vary across the dialog.
+
+<center>
+<b> 1 Prediction Frames. Probs </b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/dialog_probs_a.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/dialog_probs_b.png" alt="ALL" style='flex: 50%; width: 80%'>
+    <img src="/images/turntaking/experiment1/pred_frames_1/dialog_probs_c.png" alt="ALL" style='flex: 50%; width: 80%'>
+  </div>
+</div>
+</center>
+
+Here we see the behavior we were worried about. The network is really biased to predict the same as
+the current frame and only occasionally, e.g during silences, do we see any other behavior. At the
+state shift in the dialog we see that the likelihood almost drop to zero and then instantly jump
+right back up (we are back inside a stable state interval)
+
+
+In the paper [An Unsupervised Autoregressive Model for Speech Representation
+Learning](https://arxiv.org/pdf/1904.03240.pdf), which is based on [Contrastive Predictive
+Coding](https://arxiv.org/pdf/1807.03748.pdf), they mitigate this problem by instead prediction the
+frame $$n$$ steps into the future. Albeit they do this on the spectrograms frames (spectrums) directly.
+
+Lets train a network to output the prediction for the frame n steps from now, that is 
+
+$$ P(s_t+n | s_{t>})$$
+
+
+
+-----------------------------------------
 
 <center>
 <b> 5 Prediction Frames </b>
@@ -147,6 +210,13 @@ Generation of turntaking from the red line. All samples are from the same audio.
   </div>
 </div>
 </center>
+
+
+## Evaluation
+
+
+
+
 
 
 ### Contextual Vad States (Edlund)
