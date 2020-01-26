@@ -23,25 +23,77 @@ Exp
 <center>
 <div class="row">
   <div class="column">
-    <center><h3> States of Turn-Taking </h3></center>
-    <img src="/images/turntaking/experiment1/labels.png" alt="ALL" style='width: 100%'>
+    <center><h3> Dialog State Chromogram </h3></center>
+    <img src="/images/turntaking/chromogram/chromogram_dialog.png" alt="ALL" style='width: 100%'>
   </div>
 </div>
+</center>
+
+-------------------------------
+
+<center>
+<div class="row">
+  <div class="column" style='flex: 60%'>
+    <center><h3> Dialog Segment Chromogram </h3></center>
+    <img src="/images/turntaking/chromogram/chromogram_segment.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class="column" style='flex: 40%'>
+    <center><h3> Dialog State Histogram </h3></center>
+    <img src="/images/turntaking/chromogram/chromogram_hist.png" alt="ALL" style='width: 100%'>
+  </div>
+</div>
+</center>
+
+
+-------------------------------
+
+<center>
+<b> State distribution in datasets </b>
+<div class='row'>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/chromogram/labels_swb.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/chromogram/labels_maptask.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/chromogram/labels_robot.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+ </div>
+</div>
+
+</center>
+
+-------------------------------
+
+<center>
+<b> SWB State stats in datasets </b>
+</center>
+<center>
+<img src="/images/turntaking/chromogram/swb_dur_label_hist.png" alt="ALL" style='width: 50%'>
 </center>
 
 <center>
-
-<b> State distribution in datasets </b>
-
-<div class='row'>
-  <div class='columns'>
-    <img src="/images/turntaking/labels/class_states_10ms_frames.png" alt="ALL" style='flex: 50%; width: 99%'>
-  </div>
-  <div class='columns'>
-    <img src="/images/turntaking/labels/class_states_10ms_frames_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
-  </div>
-</div>
+<b> SWB State stats in datasets </b>
 </center>
+<center>
+<img src="/images/turntaking/chromogram/maptask_dur_label_hist.png" alt="ALL" style='width: 50%'>
+</center>
+
+<center>
+<b> SWB State stats in datasets </b>
+</center>
+<center>
+<img src="/images/turntaking/chromogram/robot_dur_label_hist.png" alt="ALL" style='width: 50%'>
+</center>
+
+
+-------------------------------
 
 
 ### Experiment 1
