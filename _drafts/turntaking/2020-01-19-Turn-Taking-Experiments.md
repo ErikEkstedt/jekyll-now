@@ -92,6 +92,13 @@ Exp
 <img src="/images/turntaking/chromogram/robot_dur_label_hist.png" alt="ALL" style='width: 50%'>
 </center>
 
+-------------------------------
+
+### Global Labels
+
+
+<video src="/images/turntaking/chromogram/global/video_labels_test.mp4" height="" width="100%" type='video/mp4' preload="none" controls='loop' autoplay="autoplay"></video>
+
 
 -------------------------------
 
