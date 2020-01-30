@@ -274,45 +274,6 @@ $$ P(s_t+n | s_{t>})$$
 ## Evaluation
 
 
-
-
-
-
-### Contextual Vad States (Edlund)
-
-* None -> Pauses, Gaps
-* Both -> overlap (within, between)
-* 5 states 2.32 bits, 6 states 2.58 bits (correct?)
-
-
-<center>
-<b>Loss and Accuracy</b>
-<div class='row'>
-  <div class='columns'>
-    <img src="/images/turntaking/experiment1/" alt="ALL" style='width: 80%'>
-  </div>
-</div>
-</center>
-
-<center>
-<b>Fscore</b>
-<div class='row'>
-  <div class='columns'>
-    <img src="/images/turntaking/experiment1/" alt="ALL" style='width: 80%'>
-  </div>
-</div>
-</center>
-
-<center>
-<b> Weighted Fscore</b>
-<div class='row'>
-  <div class='columns' style='flex: 100%'>
-    <img src="/images/turntaking/experiment1/" alt="ALL" style='width: 50%'>
-  </div>
-</div>
-</center>
-
-
 ### Inference
 
 Generation of turntaking from the red line. All samples are from the same audio. 
@@ -348,6 +309,31 @@ Generation of turntaking from the red line. All samples are from the same audio.
   </div>
 </div>
 </center>
+
+## Experiment 2: Global
+
+
+## Experiment 3: CPC
+
+Learning the global encoding might be a useful way partly to circumvent defining the future state of
+the conversation by hand but also that the model might learn something useful which we did not think
+about, or maybe just something useful in the space of what is possible to learn given the problem
+formulation (input data, model parameters, ..., etc)
+
+
+<center>
+<b> Epoch 69 Training on 4 MFCC/channel to cpc_dim: 32</b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/cpc/cpc_loss_ep69.png" alt="ALL" style='flex: 30%; width: 80%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/cpc/mfcc4_to_cpc_120-32.png" alt="ALL" style='flex: 80%; width: 80%'>
+  </div>
+</div>
+</center>
+
+
 
 
 
