@@ -72,25 +72,118 @@ Exp
 -------------------------------
 
 <center>
-<b> SWB State stats in datasets </b>
-</center>
-<center>
-<img src="/images/turntaking/chromogram/swb_dur_label_hist.png" alt="ALL" style='width: 50%'>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/swb_dur_label_hist.png" alt="ALL" style='width: 100%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/maptask_dur_label_hist.png" alt="ALL" style='width: 100%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/robot_dur_label_hist.png" alt="ALL" style='width: 100%'>
+ </div>
+</div>
 </center>
 
-<center>
-<b> SWB State stats in datasets </b>
-</center>
-<center>
-<img src="/images/turntaking/chromogram/maptask_dur_label_hist.png" alt="ALL" style='width: 50%'>
-</center>
+
+-------------------------------
 
 <center>
-<b> SWB State stats in datasets </b>
+<h1> Turns </h1> 
 </center>
+
+
 <center>
-<img src="/images/turntaking/chromogram/robot_dur_label_hist.png" alt="ALL" style='width: 50%'>
+<b> Turn Pair Sample (good) from Switchboard</b>
+<img src="/images/turntaking/turns/turn_pair_sample_swb_good.png" alt="ALL" style='width: 100%'>
+
+<h2> Turn Pair Sample (bad?) from Switchboard</h2>
+
+<b>Starting where both speakers are active </b>
+
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/turns/turn_pair_sample_swb_bad.png" alt="ALL" style='width: 100%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/turns/turn_pair_sample_swb_bad2.png" alt="ALL" style='width: 100%'>
+  </div>
+</div>
+
+<b>Inculde entire system turn as context?</b>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/turns/turn_pair_sample_swb_bad_system_turn.png" alt="ALL" style='width: 100%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/turns/turn_pair_sample_swb_bad_system_turn2.png" alt="ALL" style='width: 100%'>
+  </div>
+</div>
 </center>
+
+<ul>
+  <li>Start of turn pair</li>
+    <ul>
+      <li>Start from last system turn end? </li>
+      <li>Start from beginning of current user turn? </li>
+      <li>Should turn pairs beginning with both be omitted?</li>
+    </ul>
+  <li>End of turn pair</li>
+    <ul>
+      <li>Include entire system turn?</li>
+      <li>Include first system ipu?</li>
+    </ul>
+</ul>
+
+<center>
+<h3>Histogram over Turn Offset</h3>
+<div class='row'>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/turns/turn_pair_offset_hist_line_swb.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/turns/turn_pair_offset_hist_line_mt.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/turns/turn_pair_offset_hist_line_robot.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/turns/turn_pair_offset_hist_line_swb_mt.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/turns/turn_pair_offset_hist_line_all.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+</div>
+
+<b>Omit Both</b>
+<div class='row'>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/turns/turn_pair_offset_hist_line_swb_mt_omit_both.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+  <div class='columns'>
+    <div class='row'>
+      <img src="/images/turntaking/turns/turn_pair_offset_hist_line_all_omit_both.png" alt="ALL" style='flex: 50%; width: 100%'>
+    </div>
+  </div>
+</div>
+</center>
+
 
 -------------------------------
 
@@ -271,49 +364,30 @@ $$ P(s_t+n | s_{t>})$$
 </center>
 
 
-## Evaluation
 
 
-### Inference
+# Training
 
-Generation of turntaking from the red line. All samples are from the same audio. 
-<center>
-<b> 1 Prediction Frames </b>
-<div class='row'>
-  <div class='columns'>
-    <img src="/images/turntaking/experiment1/pred_frames_1/0_Vad_T1_greedyFalse_pred_frames1_a.png" alt="ALL" style='flex: 50%; width: 80%'>
-    <img src="/images/turntaking/experiment1/pred_frames_1/0_Vad_T1_greedyFalse_pred_frames1_b.png" alt="ALL" style='flex: 50%; width: 80%'>
-    <img src="/images/turntaking/experiment1/pred_frames_1/0_Vad_T1_greedyFalse_pred_frames1_c.png" alt="ALL" style='flex: 50%; width: 80%'>
-  </div>
-</div>
-</center>
+Where are interesting places to evalutate/train the loss?
+
+<ul>
+  <li>End of IPUs</li>
+  <li>Mutual Silences</li>
+  <li>Turn Clean moments</li>
+  <li>Turn Overlap moments</li>
+</ul>
 
 <center>
-<b> 5 Prediction Frames </b>
-<div class='row'>
-  <div class='columns'>
-    <img src="/images/turntaking/experiment1/pred_frames_5/0_Vad_T1_greedyFalse_pred_frames5_a.png" alt="ALL" style='flex: 50%; width: 80%'>
-    <img src="/images/turntaking/experiment1/pred_frames_5/0_Vad_T1_greedyFalse_pred_frames5_b.png" alt="ALL" style='flex: 50%; width: 80%'>
-    <img src="/images/turntaking/experiment1/pred_frames_5/0_Vad_T1_greedyFalse_pred_frames5_c.png" alt="ALL" style='flex: 50%; width: 80%'>
-  </div>
-</div>
+<img src="/images/turntaking/events/events.png" alt="ALL" style='flex: 50%; width: 80%'>
 </center>
 
-<center>
-<b> 10 Prediction Frames </b>
-<div class='row'>
-  <div class='columns'>
-    <img src="/images/turntaking/experiment1/pred_frames_10/0_Vad_T1_greedyFalse_pred_frames10_a.png" alt="ALL" style='flex: 50%; width: 80%'>
-    <img src="/images/turntaking/experiment1/pred_frames_10/0_Vad_T1_greedyFalse_pred_frames10_b.png" alt="ALL" style='flex: 50%; width: 80%'>
-    <img src="/images/turntaking/experiment1/pred_frames_10/0_Vad_T1_greedyFalse_pred_frames10_c.png" alt="ALL" style='flex: 50%; width: 80%'>
-  </div>
-</div>
-</center>
-
-## Experiment 2: Global
+## Vad activity prediction
 
 
-## Experiment 3: CPC
+## Vad global activity prediction
+
+
+### Experiment 3: CPC
 
 Learning the global encoding might be a useful way partly to circumvent defining the future state of
 the conversation by hand but also that the model might learn something useful which we did not think
