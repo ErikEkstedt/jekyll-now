@@ -383,6 +383,13 @@ Where are interesting places to evalutate/train the loss?
 
 ## Vad activity prediction
 
+<img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad.png" alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad_2.png" alt="ALL" style='width: 100%'>
+
+## Vad classes prediction
+
+<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states.png" alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states_2.png" alt="ALL" style='width: 100%'>
 
 ## Vad global activity prediction
 
