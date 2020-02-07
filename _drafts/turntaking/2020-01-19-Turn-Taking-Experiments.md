@@ -386,16 +386,54 @@ Where are interesting places to evalutate/train the loss?
 <img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad.png" alt="ALL" style='width: 100%'>
 <img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad_2.png" alt="ALL" style='width: 100%'>
 
+
+
+### Questions
+
+How to decide if a turn prediction is true or false? 
+
+The ground truth average is shown in black segmented lines and the model prediction in the colors of
+corresponding speaker. At a turn event the average ground truth predictions do not match the actual
+action in the conversation. In the image below we show correct guesses with green points and are
+defined correct if they follow the ground truth (averagem ground truth vs average model prediction).
+
+<img src="/images/turntaking/model_prediction/TT_decision_trouble_vad_prediction.png"  alt="ALL" style='width: 100%'>
+
+
 ## Vad classes prediction
 
 <img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states.png" alt="ALL" style='width: 100%'>
 <img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states_2.png" alt="ALL" style='width: 100%'>
 
+
+<center>
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Prediction: sw2264</h4>
+    <video src="/images/turntaking/model_prediction/sw2264_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Prediction: sw2379</h4>
+    <video src="/images/turntaking/model_prediction/sw2379_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+</div>
+<center>
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Classes Prediction: sw2264</h4>
+    <video src="/images/turntaking/model_prediction/sw2264_vad_classes_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Classes Prediction: sw2379</h4>
+    <video src="/images/turntaking/model_prediction/sw2379_vad_classes_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+</div>
+</center>
+
+
 ## Vad global activity prediction
 
-
 ### Experiment 3: CPC
-
 Learning the global encoding might be a useful way partly to circumvent defining the future state of
 the conversation by hand but also that the model might learn something useful which we did not think
 about, or maybe just something useful in the space of what is possible to learn given the problem
