@@ -200,10 +200,33 @@ Where are interesting places to evalutate/train the loss?
 <img src="/images/turntaking/events/events.png" alt="ALL" style='flex: 50%; width: 80%'>
 </center>
 
-## Vad activity prediction
+### frame acc vad pred
 
+<img src="/images/turntaking/events/vad_mask_loss_30pad.png" alt="ALL" style='width: 100%'>
+
+<ul>
+  <li>Train vad prediction but zero out the loss at "non red segments".</li>
+  <li> Dip at current frame (left in graph) ? why?  </li>
+  <li> extend mask to the left by 30 frames. the dip moves </li>
+  <ul>
+    <li> <a href="http://130.237.67.222:6007/#scalars" target="_blank">Tensorboard</a> </li>
+    <li> best event acc 3 layer 128 hidden lstm no padding </li>
+    <li> extending loss to the left worsen performance ? </li>
+  </ul>
+</ul>
+
+
+<b> Vad activity prediction </b>
+
+a tad bit older vad prediction curves
 <img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad.png" alt="ALL" style='width: 100%'>
 <img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad_2.png" alt="ALL" style='width: 100%'>
+
+<b> Vad classes prediction </b>
+
+a tad bit older vad classes prediction curves
+<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states.png" alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states_2.png" alt="ALL" style='width: 100%'>
 
 
 
@@ -221,13 +244,17 @@ defined correct if they follow the ground truth (averagem ground truth vs averag
 
 ## Vad and Vad state prediction 3 seconds
 
+
+Both vad_states and vad can construct vad prediction (greedy is straightforward).
+
+Training on only mfcc and pitch are shown below (words are only there for clarity).
+
 <center>
 <div class='row'>
   <div class='columns' style='width: 50%'>
     <h4>Vad Prediction: sw2264</h4>
     <video src="/images/turntaking/model_prediction/sw2264_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
     <ul>
-      <li>0:17 - short backchannel -> no tt -> breath -> tt </li>
       <li>0:17 - short backchannel -> no tt -> breath -> tt </li>
     </ul>
   </div>
@@ -252,24 +279,58 @@ defined correct if they follow the ground truth (averagem ground truth vs averag
 
 ----------------------
 
+CPC loss is more difficult to evaluate (most likely "typical" sample).
+
+Maybe that is too complicated. We may try to compress the future, in some way, first.
+
+CPC gets around noise in reconstruction. Vad does not have this problem. CPC seems premature.
+
+Training done in like 5 minutes on 30 swb dialogs.
+
+## VAE
+
+<ul>
+  <li> compress the future state </li>
+  <li> compress with some uncertainty (vae)</li>
+</ul>
+
+<center>
+<h3>VAE Reconstruction. Z_dim=16</h3>
+<div class='columns' style='width: 50%'>
+  <h4>VAE Reconstruction. Only mean (no noise).</h4>
+  <video src="/images/turntaking/vae/vae_video_no_noise.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+</div>
+<div class='columns' style='width: 50%'>
+  <h4>VAE Reconstruction. "regular" forward pass.</h4>
+  <video src="/images/turntaking/vae/vae_video.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+</div>
+
+</center>
+
+
+Now the game is to learn to map the context to the future VAE encoding ( 32 values mean and std).
+
+
+
 
 <h2>Sample Training</h2>
 
 <center>
-<div class='row'>
-  <div class='columns' style='width: 50%'>
-    <img src="/images/turntaking/model_prediction/training/vad_acc.png" alt="ALL" style='width: 100%'>
+<button onclick="nonSense()">training</button>
+<div id="nonSense">
+  <div class='row'>
+    <div class='columns' style='width: 50%'>
+      <img src="/images/turntaking/model_prediction/training/vad_acc.png" alt="ALL" style='width: 100%'>
+    </div>
+    <div class='columns' style='width: 50%'>
+      <img src="/images/turntaking/model_prediction/training/vad_states_confusion.png"  alt="ALL" style='width: 100%'>
+    </div>
   </div>
-  <div class='columns' style='width: 50%'>
-    <img src="/images/turntaking/model_prediction/training/vad_states_confusion.png"  alt="ALL" style='width: 100%'>
-  </div>
+  <img src="/images/turntaking/model_prediction/training/vad_states_acc.png" alt="ALL" style='width: 100%'>
+  <img src="/images/turntaking/model_prediction/training/vad_acc_loss.png" alt="ALL" style='width: 100%'>
+  <img src="/images/turntaking/model_prediction/training/vad_states_extra_loss.png"  alt="ALL" style='width: 100%'>
+  <img src="/images/turntaking/model_prediction/training/vad_vad_states_loss.png"  alt="ALL" style='width: 100%'>
 </div>
-
-<img src="/images/turntaking/model_prediction/training/vad_states_acc.png" alt="ALL" style='width: 100%'>
-<img src="/images/turntaking/model_prediction/training/vad_acc_loss.png" alt="ALL" style='width: 100%'>
-<img src="/images/turntaking/model_prediction/training/vad_states_extra_loss.png"  alt="ALL" style='width: 100%'>
-<img src="/images/turntaking/model_prediction/training/vad_vad_states_loss.png"  alt="ALL" style='width: 100%'>
-
 </center>
 
 
@@ -278,12 +339,6 @@ defined correct if they follow the ground truth (averagem ground truth vs averag
 
 
 <img src="/images/turntaking/model_prediction/TT_decision_trouble_vad_prediction.png"  alt="ALL" style='width: 100%'>
-
-
-## Vad classes prediction
-
-<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states.png" alt="ALL" style='width: 100%'>
-<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states_2.png" alt="ALL" style='width: 100%'>
 
 
 
