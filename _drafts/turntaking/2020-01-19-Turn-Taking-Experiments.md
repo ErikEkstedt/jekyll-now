@@ -187,23 +187,120 @@ Exp
 
 -------------------------------
 
-### Global Labels
+Where are interesting places to evalutate/train the loss?
 
+<ul>
+  <li>End of IPUs</li>
+  <li>Mutual Silences</li>
+  <li>Turn Clean moments</li>
+  <li>Turn Overlap moments</li>
+</ul>
+
+<center>
+<img src="/images/turntaking/events/events.png" alt="ALL" style='flex: 50%; width: 80%'>
+</center>
+
+## Vad activity prediction
+
+<img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad.png" alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad_2.png" alt="ALL" style='width: 100%'>
+
+
+
+### Questions
+
+How to decide if a turn prediction is true or false? 
+
+The ground truth average is shown in black segmented lines and the model prediction in the colors of
+corresponding speaker. At a turn event the average ground truth predictions do not match the actual
+action in the conversation. In the image below we show correct guesses with green points and are
+defined correct if they follow the ground truth (averagem ground truth vs average model prediction).
+
+
+--------------------------
+
+## Vad and Vad state prediction 3 seconds
+
+<center>
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Prediction: sw2264</h4>
+    <video src="/images/turntaking/model_prediction/sw2264_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+    <ul>
+      <li>0:17 - short backchannel -> no tt -> breath -> tt </li>
+      <li>0:17 - short backchannel -> no tt -> breath -> tt </li>
+    </ul>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Prediction: sw2379</h4>
+    <video src="/images/turntaking/model_prediction/sw2379_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Classes Prediction: sw2264</h4>
+    <video src="/images/turntaking/model_prediction/sw2264_vad_state_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Classes Prediction: sw2379</h4>
+    <video src="/images/turntaking/model_prediction/sw2379_vad_state_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+</div>
+</center>
+
+
+----------------------
+
+
+<h2>Sample Training</h2>
+
+<center>
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <img src="/images/turntaking/model_prediction/training/vad_acc.png" alt="ALL" style='width: 100%'>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <img src="/images/turntaking/model_prediction/training/vad_states_confusion.png"  alt="ALL" style='width: 100%'>
+  </div>
+</div>
+
+<img src="/images/turntaking/model_prediction/training/vad_states_acc.png" alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/training/vad_acc_loss.png" alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/training/vad_states_extra_loss.png"  alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/training/vad_vad_states_loss.png"  alt="ALL" style='width: 100%'>
+
+</center>
+
+
+--------------------------------------------
+
+
+
+<img src="/images/turntaking/model_prediction/TT_decision_trouble_vad_prediction.png"  alt="ALL" style='width: 100%'>
+
+
+## Vad classes prediction
+
+<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states.png" alt="ALL" style='width: 100%'>
+<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states_2.png" alt="ALL" style='width: 100%'>
+
+
+
+
+-------------------------------
+
+### Global Labels
 
 <video src="/images/turntaking/chromogram/global/video_labels_test.mp4" height="" width="100%" type='video/mp4' preload="none" controls='loop' autoplay="autoplay"></video>
 
 
 -------------------------------
-
-
 ### Experiment 1
-
-
 We are interested in states so lets try and learn those directly
 
 
 ---------------
-
 **Learn the single frame prediction:**
 
 $$ P(s_t | s_{t>}) $$ 
@@ -215,7 +312,6 @@ where $$ s_t \in S_v, S_e $$ where $$S_v$$, $$S_v$$ is the vad and Edlund classe
 **Learn mulitple frames prediction:**
 
 $$ P(s'_t | s_{t>}), s'_t = \{s_t, s_{t+1}, ..., s_{t+h} \} $$ 
-
 where $$h$$ is the number of future frames to predict. Assumption: IID for all the outputs, The different output frames are not dependent on the previous output frame in each given future prediction.
 
 --------------
@@ -223,14 +319,11 @@ where $$h$$ is the number of future frames to predict. Assumption: IID for all t
 **Learn single label multiple frame prediction:**
 
 $$ P(y_t | s_{t>}), y_t \in Y $$
-
 where Y is constructed by combining $$\{s_0, s_1,...,s_h\}$$ consecutive frames into $$ 2^h$$ distinct classes.
 
 --------------
 
 ## Vad States 
-
-
 <center>
 <b>Loss and Accuracy</b>
 <div class='row'>
@@ -367,68 +460,6 @@ $$ P(s_t+n | s_{t>})$$
 
 
 # Training
-
-Where are interesting places to evalutate/train the loss?
-
-<ul>
-  <li>End of IPUs</li>
-  <li>Mutual Silences</li>
-  <li>Turn Clean moments</li>
-  <li>Turn Overlap moments</li>
-</ul>
-
-<center>
-<img src="/images/turntaking/events/events.png" alt="ALL" style='flex: 50%; width: 80%'>
-</center>
-
-## Vad activity prediction
-
-<img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad.png" alt="ALL" style='width: 100%'>
-<img src="/images/turntaking/model_prediction/OUT_vad_IN_pitch_mfcc_vad_2.png" alt="ALL" style='width: 100%'>
-
-
-
-### Questions
-
-How to decide if a turn prediction is true or false? 
-
-The ground truth average is shown in black segmented lines and the model prediction in the colors of
-corresponding speaker. At a turn event the average ground truth predictions do not match the actual
-action in the conversation. In the image below we show correct guesses with green points and are
-defined correct if they follow the ground truth (averagem ground truth vs average model prediction).
-
-<img src="/images/turntaking/model_prediction/TT_decision_trouble_vad_prediction.png"  alt="ALL" style='width: 100%'>
-
-
-## Vad classes prediction
-
-<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states.png" alt="ALL" style='width: 100%'>
-<img src="/images/turntaking/model_prediction/OUT_vad-classes_IN_pitch_mfcc_vad-states_2.png" alt="ALL" style='width: 100%'>
-
-
-<center>
-<div class='row'>
-  <div class='columns' style='width: 50%'>
-    <h4>Vad Prediction: sw2264</h4>
-    <video src="/images/turntaking/model_prediction/sw2264_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
-  </div>
-  <div class='columns' style='width: 50%'>
-    <h4>Vad Prediction: sw2379</h4>
-    <video src="/images/turntaking/model_prediction/sw2379_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
-  </div>
-</div>
-<center>
-<div class='row'>
-  <div class='columns' style='width: 50%'>
-    <h4>Vad Classes Prediction: sw2264</h4>
-    <video src="/images/turntaking/model_prediction/sw2264_vad_classes_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
-  </div>
-  <div class='columns' style='width: 50%'>
-    <h4>Vad Classes Prediction: sw2379</h4>
-    <video src="/images/turntaking/model_prediction/sw2379_vad_classes_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
-  </div>
-</div>
-</center>
 
 
 ## Vad global activity prediction
