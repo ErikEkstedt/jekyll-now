@@ -336,13 +336,105 @@ The brain is very sparse
     <img src="/images/turntaking/labels/class_5labels_1second_10ms_frames_dset.png" alt="ALL" style='flex: 50%; width: 99%'>
   </div>
 </div>
+
 <div class='row'>
   <div class='columns'>
     <img src="/images/turntaking/labels/class_5labels_segment_vad.png" alt="ALL" style='flex: 50%; width: 99%'>
   </div>
 </div>
 
+</center> 
 
+## Turns
+
+
+<center> 
+<table style="width:50%">
+  <tr>
+    <th>Event params</th>
+    <th>Value</th>
+  </tr>
+  <tr>
+    <td>ipu_segment_frames </td>
+    <td>4</td>
+  </tr>
+  <tr>
+    <td>turn_min_duration </td>
+    <td>4</td>
+  </tr>
+  <tr>
+    <td>min_turn_solo </td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>turn_long_cutoff </td>
+    <td>30</td>
+  </tr>
+  <tr>
+    <td>turn_min_gap </td>
+    <td>6</td>
+  </tr>
+  <tr>
+    <td>turn_answer_min </td>
+    <td>10</td> 
+  </tr>
+  <tr>
+    <td>turn_answer_good_min </td>
+    <td>60</td>
+  </tr>
+  <tr>
+    <td>pause_min_length </td>
+    <td>10</td>
+  </tr>
+  <tr>
+    <td>pause_continuation_min </td>
+    <td>20</td>
+  </tr>
+</table>
+</center> 
+
+<br>
+
+<center>
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <img src="/images/turntaking/turns_new/turn_duration_swb.png" alt="ALL" style='width: 100%'>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <img src="/images/turntaking/turns_new/events_swb.png" alt="ALL" style='width: 100%'>
+  </div>
+</div>
+
+<table style='width: 80%; pad: 5%'>
+  <tr>
+    <th>Events</th>
+    <th>n</th>
+  </tr>
+  <tr>
+    <td>Duration</td>
+    <td>107634</td>
+  </tr>
+  <tr>
+    <td>Duration Long</td>
+    <td>67998</td>
+  </tr>
+  <tr>
+    <td>Duration Short</td>
+    <td>39636</td>
+  </tr>
+  <tr>
+    <td>Gaps</td>
+    <td>43197</td>
+  </tr>
+  <tr>
+    <td>Gaps Good</td>
+    <td>25547</td>
+  </tr>
+  <tr>
+    <td>Pauses</td>
+    <td>70218</td>
+  </tr>
+</table>
 
 </center>
 
