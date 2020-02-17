@@ -1,0 +1,244 @@
+---
+layout: post
+author: Erik
+---
+
+
+A continuous predictive (Un)supervised model for turn-taking.
+
+
+<!--more-->
+
+
+<h1>Chromogram</h1>
+
+<p style='width: 50%'> 
+A chromogram is produced by mapping a dialog onto a simple space where the only relevant information for each channel at each frame is defined by speech activity or no speech activity. That
+is each frame in each channel can be seen as a binary variable where 1 represents speech and 0 silence. The two channel (for a dialog) may be combined to form a state chromogram where each frame
+now has 4 different states.
+</p>
+
+Single Chromogram
+<ul>
+  <li>0: Silence</li>
+  <li>1: Silence</li>
+</ul>
+
+Joint Chromogram
+<ul>
+  <li>0: Only speaker 1</li>
+  <li>1: Mutual silence</li>
+  <li>2: Mutual speech (both)</li>
+  <li>1: Only speaker 2</li>
+</ul>
+
+<center>
+<div class="row">
+  <div class="column" style='flex: 60%'>
+    <center><h3> Dialog Segment Chromogram </h3></center>
+    <img src="/images/turntaking/chromogram/chromogram_segment.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class="column" style='flex: 40%'>
+    <center><h3> Dialog State Histogram </h3></center>
+    <img src="/images/turntaking/chromogram/chromogram_hist.png" alt="ALL" style='width: 100%'>
+  </div>
+</div>
+</center>
+
+<h3> State distribution in datasets </h3>
+
+<h4> Switchboard </h4>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/labels_swb.png" alt="ALL" style='width: 90%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/swb_dur_label_hist.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+<h4> Maptask </h4>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/labels_maptask.png" alt="ALL" style='flex: 50%; width: 90%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/maptask_dur_label_hist.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+<h4> Robot </h4>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/labels_robot.png" alt="ALL" style='flex: 50%; width: 90%'>
+  </div>
+  <div class='columns'>
+    <img src="/images/turntaking/chromogram/robot_dur_label_hist.png" alt="ALL" style='width: 90%'>
+  </div>
+</div>
+
+<hr>
+
+<h1> Turns </h1>
+
+<p>
+A dialog may be divided into different turns. One speaker is saying something and the other answers and so forth. 
+How can we extract these abstract segments based on the chromograms?
+</p>
+
+<img src="" alt="!!! PLOT TURN SAMPLE HERE !!!"/>
+
+
+
+
+<h2>Interesting moments</h2>
+
+<ul>
+  <li>Shifts </li>
+  <ul>
+    <li>True at silences between turns</li> 
+  </ul>
+  <li>Holds</li>
+  <ul>
+    <li>True at silences inside of turns</li> 
+  </ul>
+  <li>Turn Duration Prediction</li>
+  <ul>
+    <li>At beginning of turns can the model predict if the IPU is long or short?</li>
+    <li>Axiom:  Long>=1.5sec </li>
+  </ul>
+  <li>Error Resolve</li>
+  <ul>
+    <li>Both speakers are active</li>
+  </ul>
+</ul>
+
+
+<h4> Shift </h4>
+
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/events/gap/sample1.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/gap/sample2.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/gap/sample3.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/gap/sample4.png" alt=""/>
+  </div>
+</div>
+
+<h4> Hold </h4>
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample1.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample2.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample3.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample4.png" alt=""/>
+  </div>
+</div>
+
+<h4> Turn Duration Prediction </h4>
+
+
+<h4>Error Resolve</h4>
+
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample1.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample2.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample3.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample4.png" alt=""/>
+  </div>
+</div>
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample5.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample6.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample7.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/error_resolve/sample8.png" alt=""/>
+  </div>
+</div>
+
+
+<h1>Sample Videos</h1>
+
+<p>
+Both vad_states and vad can construct vad prediction (greedy is straightforward).
+Training on only mfcc and pitch are shown below (words are only there for clarity).
+</p>
+
+<center>
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Prediction: sw2264</h4>
+    <video src="/images/turntaking/model_prediction/sw2264_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+    <ul>
+      <li>0:17 - short backchannel -> no tt -> breath -> tt </li>
+    </ul>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Prediction: sw2379</h4>
+    <video src="/images/turntaking/model_prediction/sw2379_vad_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Classes Prediction: sw2264</h4>
+    <video src="/images/turntaking/model_prediction/sw2264_vad_state_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+  <div class='columns' style='width: 50%'>
+    <h4>Vad Classes Prediction: sw2379</h4>
+    <video src="/images/turntaking/model_prediction/sw2379_vad_state_prediction.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+  </div>
+</div>
+</center>
+
+
+
+<h1> VAE </h1>
+
+Vae Training done in like 5 minutes on 30 swb dialogs.
+
+<ul>
+  <li> compress the future state </li>
+  <li> compress with some uncertainty (vae)</li>
+</ul>
+
+<center>
+<h3>VAE Reconstruction. Z_dim=16</h3>
+<div class='columns' style='width: 50%'>
+  <h4>VAE Reconstruction. Only mean (no noise).</h4>
+  <video src="/images/turntaking/vae/vae_video_no_noise.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+</div>
+<div class='columns' style='width: 50%'>
+  <h4>VAE Reconstruction. "regular" forward pass.</h4>
+  <video src="/images/turntaking/vae/vae_video.mp4" height="" width="100%" type='video/mp4' preload="auto" controls='loop' autoplay="autoplay"></video>
+</div>
+
+</center>
+
+
+Now the game is to learn to map the context to the future VAE encoding ( 32 values mean and std).

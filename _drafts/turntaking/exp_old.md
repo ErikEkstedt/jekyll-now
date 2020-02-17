@@ -89,9 +89,7 @@ Exp
 
 -------------------------------
 
-<center>
-<h1> Turns </h1> 
-</center>
+# Turns
 
 
 <center>
@@ -187,7 +185,7 @@ Exp
 
 -------------------------------
 
-Where are interesting places to evalutate/train the loss?
+## Where are interesting places to evalutate/train the loss?
 
 <ul>
   <li>End of IPUs</li>
@@ -281,13 +279,20 @@ Training on only mfcc and pitch are shown below (words are only there for clarit
 
 CPC loss is more difficult to evaluate (most likely "typical" sample).
 
-Maybe that is too complicated. We may try to compress the future, in some way, first.
+I started evaluating and when comparing against other samples "silence" almost always one > 90\%.
+Second guess was chosen as the winner (only speaker 0, or only speaker 1).
+
+
+## Maybe ..
+
+Maybe CPC is too complicated. We may try to compress the future, in some way, first.
 
 CPC gets around noise in reconstruction. Vad does not have this problem. CPC seems premature.
 
-Training done in like 5 minutes on 30 swb dialogs.
 
 ## VAE
+
+Vae Training done in like 5 minutes on 30 swb dialogs.
 
 <ul>
   <li> compress the future state </li>
@@ -309,7 +314,6 @@ Training done in like 5 minutes on 30 swb dialogs.
 
 
 Now the game is to learn to map the context to the future VAE encoding ( 32 values mean and std).
-
 
 
 
