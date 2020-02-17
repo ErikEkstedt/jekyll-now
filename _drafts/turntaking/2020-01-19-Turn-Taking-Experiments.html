@@ -18,32 +18,27 @@ is each frame in each channel can be seen as a binary variable where 1 represent
 now has 4 different states.
 </p>
 
-Single Chromogram
-<ul>
-  <li>0: Silence</li>
-  <li>1: Silence</li>
-</ul>
-
-Joint Chromogram
-<ul>
-  <li>0: Only speaker 1</li>
-  <li>1: Mutual silence</li>
-  <li>2: Mutual speech (both)</li>
-  <li>1: Only speaker 2</li>
-</ul>
-
-<center>
-<div class="row">
-  <div class="column" style='flex: 60%'>
-    <center><h3> Dialog Segment Chromogram </h3></center>
-    <img src="/images/turntaking/chromogram/chromogram_segment.png" alt="ALL" style='width: 90%'>
+<div class='row'>
+  <div class='column' style='flex: 70%'>
+    <img src="/images/turntaking/chromogram/chromogram_segment.png" alt="ALL" style='width: 100%'>
   </div>
-  <div class="column" style='flex: 40%'>
-    <center><h3> Dialog State Histogram </h3></center>
-    <img src="/images/turntaking/chromogram/chromogram_hist.png" alt="ALL" style='width: 100%'>
+  <div class='column' style='flex: 30%'>
+    <strong>Single Chromogram</strong>
+    <ul>
+      <li>0: Silence</li>
+      <li>1: Speech</li>
+    </ul>
+    <strong>Joint Chromogram</strong>
+    <ul>
+      <li>0: Only speaker 1</li>
+      <li>1: Mutual silence</li>
+      <li>2: Mutual speech (both)</li>
+      <li>3: Only speaker 2</li>
+    </ul>
+    <img src="/images/turntaking/chromogram/chromogram_hist.png" alt="ALL" style='width: 70%'>
   </div>
 </div>
-</center>
+
 
 <h3> State distribution in datasets </h3>
 
@@ -89,8 +84,6 @@ How can we extract these abstract segments based on the chromograms?
 <img src="" alt="!!! PLOT TURN SAMPLE HERE !!!"/>
 
 
-
-
 <h2>Interesting moments</h2>
 
 <ul>
@@ -113,8 +106,40 @@ How can we extract these abstract segments based on the chromograms?
   </ul>
 </ul>
 
+<!-- ---------------------------------------------------- -->
+<h4> Hold </h4>
 
+<ul>
+  <li> Ask who is going to be the next speaker during mutual silence </li>
+</ul>
+
+<img src="/images/turntaking/turns_new/pause_sample.png" alt="ALL" style='width: 100%'>
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample1.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample2.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample3.png" alt=""/>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/events/pause/sample4.png" alt=""/>
+  </div>
+</div>
+
+<!-- ---------------------------------------------------- -->
 <h4> Shift </h4>
+
+<ul>
+  <li> Ask who is going to be the next speaker during mutual silence </li>
+</ul>
+<div class='row'>
+  <div class='columns'>
+    <img src="/images/turntaking/turns_new/shift_sample.png" alt="ALL" style='width: 100%'>
+  </div>
+</div>
 
 <div class='row'>
   <div class='column'>
@@ -131,23 +156,14 @@ How can we extract these abstract segments based on the chromograms?
   </div>
 </div>
 
-<h4> Hold </h4>
-<div class='row'>
-  <div class='column'>
-    <img src="/images/turntaking/events/pause/sample1.png" alt=""/>
-  </div>
-  <div class='column'>
-    <img src="/images/turntaking/events/pause/sample2.png" alt=""/>
-  </div>
-  <div class='column'>
-    <img src="/images/turntaking/events/pause/sample3.png" alt=""/>
-  </div>
-  <div class='column'>
-    <img src="/images/turntaking/events/pause/sample4.png" alt=""/>
-  </div>
-</div>
 
+<!-- ---------------------------------------------------- -->
 <h4> Turn Duration Prediction </h4>
+<ul>
+  <li>Choose n frames in into each turn start (black line)</li>
+  <li>Ask model whether the turn is long or short</li>
+</ul>
+<img src="/images/turntaking/turns_new/turn_duration_sample.png" alt="ALL" style='width: 100%'>
 
 
 <h4>Error Resolve</h4>
@@ -179,6 +195,58 @@ How can we extract these abstract segments based on the chromograms?
   <div class='column'>
     <img src="/images/turntaking/events/error_resolve/sample8.png" alt=""/>
   </div>
+</div>
+
+
+<h2> Compare Models </h2>
+
+<img src="/images/turntaking/eval/vad_vs_vc_sample.png" alt="ALL" style='width: 100%'>
+
+<hr></hr>
+
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div style='width: 80%;margin: auto'>
+  Prel Score
+  <table>
+    <tr>
+      <th> Event </th>
+      <th> Vad Prediction </th>
+      <th> Vad Class Prediction </th>
+      <th> Vad Vae Latent Prediction </th>
+    </tr>
+    <tr> 
+      <td> Turn Duration </td> 
+      <td>-</td> 
+      <td>-</td>
+      <td> - </td>
+    </tr>
+    <tr> 
+      <td> Holds/Pauses </td>
+      <td> - </td> 
+      <td> - </td>
+      <td> - </td>
+    </tr>
+    <tr> 
+      <td>Shifts/Gaps</td> 
+      <td> -</td> 
+      <td> - </td>
+      <td> - </td>
+    </tr>
+    <tr> 
+      <td> Shifts/Gaps Longer</td>
+      <td>-</td> 
+      <td>-</b></td>
+      <td>-</td>
+    </tr>
+  </table>
 </div>
 
 
