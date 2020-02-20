@@ -1,0 +1,36 @@
+---
+layout: post
+author: Erik
+---
+
+
+<strong>B</strong>ackchannel <strong>M</strong>utual silence <strong>O</strong>verlap resolve and utterance <strong>D</strong>uration estimator
+
+<!--more-->
+
+
+<h1>Backchannel</h1>
+
+<p>
+In the switchboard dataset there are several variants of backchannels
+
+</p>
+
+<code>
+    solo_condition_backchannels = [
+        "yeah",
+        "right",
+        "oh",
+        "huh",
+        "okay",
+        "mhm",
+        "uh-huh",
+        "um-hum",
+        "hum",
+        "hm",
+    ]
+    solo_condition_backchannels += [
+        f"[laughter-{bc}]" for bc in solo_condition_backchannels
+    ]
+</code>
+
