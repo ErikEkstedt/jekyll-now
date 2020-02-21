@@ -9,28 +9,125 @@ author: Erik
 <!--more-->
 
 
-<h1>Backchannel</h1>
+<h1>Backchannels/Acknowledgements</h1>
 
-<p>
-In the switchboard dataset there are several variants of backchannels
 
-</p>
+In the switchboard dataset there are several variants of backchannels. However, these words can be used as more things than backchannels. the word "right" could be an acknowledgment but could also
+indicate a direction. "Yeah" could be a backchannel but also a filler/answer at the beginning of a user turn. So after we have our candidate words we make sure that they are uttered in isolation.
+Only a single "yeah" or "right" would be a backchannel but when used inside a turn we assume that it is not a backchannel.
 
-<code>
-    solo_condition_backchannels = [
-        "yeah",
-        "right",
-        "oh",
-        "huh",
-        "okay",
-        "mhm",
-        "uh-huh",
-        "um-hum",
-        "hum",
-        "hm",
-    ]
-    solo_condition_backchannels += [
-        f"[laughter-{bc}]" for bc in solo_condition_backchannels
-    ]
-</code>
 
+Candidate bachchannels
+<ul>
+  <li>"yeah"</li>
+  <li>"right"</li>
+  <li>"oh"</li>
+  <li>"huh"</li>
+  <li>"okay"</li>
+  <li>"mhm"</li>
+  <li>"uh-huh"</li>
+  <li>"um-hum"</li>
+  <li>"hum"</li>
+  <li>"hm"</li>
+  <li>"[laughter-BC]"</li>
+</ul>
+
+
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/yeah_no_bc.png" alt="yeah_no_bc" style='width: 90%'/>
+    <br>
+
+    "yeah" in an utterance and not considered a backchannel.
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/yeah_bc.png" alt="yeah_bc" style='width: 90%'/>
+    <br>
+    "yeah" in isolation and considered a backchannel.
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/uh-huh_bc.png" alt="yeah_bc" style='width: 90%'/>
+    <br>
+    "uh-huh" in isolation, a typical backchannel.
+  </div>
+</div>
+
+
+
+
+
+
+<h2>Training samples </h2>
+
+
+Let user, <strong>U</strong>, be the active speaker system, <strong>S</strong>, be the one to generate a backchannel.
+
+Problems:
+<ul>
+  <li> bleed over &rarr; only predict before backchannels </li>
+  <li> <strong>S</strong> might be speaking previous to backchannel &rarr; omit samples where <strong>S</strong> is active in context window </li>
+</ul>
+
+
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/samples/a.png" alt=""/>
+    <audio controls>
+      <source src="/images/turntaking/bmod/backchannels/samples/a.wav" type="audio/wav">
+    Your browser does not support the audio element.
+    </audio>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/samples/b.png" alt=""/>
+    <audio controls>
+      <source src="/images/turntaking/bmod/backchannels/samples/b.wav" type="audio/wav">
+    Your browser does not support the audio element.
+    </audio>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/samples/c.png" alt=""/>
+    <audio controls>
+      <source src="/images/turntaking/bmod/backchannels/samples/c.wav" type="audio/wav">
+    Your browser does not support the audio element.
+    </audio>
+  </div>
+</div>
+
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/samples/d.png" alt=""/>
+    <audio controls>
+      <source src="/images/turntaking/bmod/backchannels/samples/d.wav" type="audio/wav">
+    Your browser does not support the audio element.
+    </audio>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/samples/e.png" alt=""/>
+    <audio controls>
+      <source src="/images/turntaking/bmod/backchannels/samples/e.wav" type="audio/wav">
+    Your browser does not support the audio element.
+    </audio>
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/bmod/backchannels/samples/f.png" alt=""/>
+    <audio controls>
+      <source src="/images/turntaking/bmod/backchannels/samples/f.wav" type="audio/wav">
+    Your browser does not support the audio element.
+    </audio>
+  </div>
+</div>
+
+Learning Problems
+
+<ul>
+  <li> Only 1s in label at the end</li>
+</ul>
+
+
+<h3>Simple Sample Training</h3>
+
+GRU - mfcc or melspec
+
+
+<img src="/images/turntaking/bmod/backchannels/training_sample_gru_varying_input_lengths.png" alt=""/>
+A sample batch. During training the context is randomized,  0-20 frames are cut from the initial context size (not all positive label happens after the same number of frames).
