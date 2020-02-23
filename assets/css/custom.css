@@ -10,7 +10,6 @@ table, caption, tbody, tfoot, thead{
   padding: 5px;
   margin: 5px;
 }
-
 tr, th, td {
   border: 1px solid black;
   text-align: left;
@@ -20,6 +19,7 @@ tr, th, td {
 
 /* Images side by side */
 .row {
+  margin: auto;
   display: flex;
   max-width:100%;
 }
@@ -27,6 +27,12 @@ tr, th, td {
 .column {
   margin: auto;
   flex: 30%;
+  padding: 5px;
+}
+
+.smallImage {
+  margin: auto;
+  width: 30%;
   padding: 5px;
 }
 

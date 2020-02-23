@@ -1,0 +1,73 @@
+---
+layout: post
+author: Erik
+---
+
+
+Turn-taking is at its base define by the semantic content of the interlocutors.
+
+
+<!--more-->
+
+
+
+
+<h1>Problem Formulation</h1>
+
+<p>
+The underlying goal for a turn-taking system is to correctly decide when to generate a response and when to listen. The response may fill different functions such as
+acknowledgments, backchannels or grabbing the turn.
+</p>
+
+
+<p>
+In a dialog every word uttered by a participant has a correlated silence (can be 0) before and after the duration of the word. Words at the end of turns or at turn relevant
+places, TRPs, will, arguably, on average have longer correlated post-silences than their counterparts. The last word of an actual turn will have a longer associated silence
+because the utterer will wait for the other participant to grab the turn in addition to the duration of the actual response. Given a TRP, where the turn could be shifted but
+wasn't, the turn yielder will, on average, wait for a response for some duration before resolving the resulted silence.
+</p>
+
+<p>
+Let each spoken word, \(x_i\), in a dialog corpus have an associated post-silence, \(y_i\) and learn to classify \(y_i = F(x_{i\geq})\). The values \(y_i \in Y\) can either be
+classified as discretized bins or as continuous values predicted through regression.
+</p>
+
+<h1>Data</h1>
+
+
+The data corpus we focus on is Switchboard, a popular dialog dataset consiting of phone conversations. The corpus have annotated words and their assoiciated time of utterence
+refered to here as timed words.
+
+
+Lets extract all the timed words from the corpus along with their associated post-silence and their duration for good measure. Below the top 50 words ordered by frequency, post-silence and duration are
+shown.
+
+
+<h3>Annotation</h3>
+
+
+<div class='row'>
+  <div class='column'>
+    <img src="/images/turntaking/semantic_base/anno_freq_top50.png" alt=""/>
+    Frequency
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/semantic_base/anno_sil_top50.png" alt=""/>
+    Silence
+  </div>
+  <div class='column'>
+    <img src="/images/turntaking/semantic_base/anno_dur_top50.png" alt=""/>
+    Duration
+  </div>
+</div>
+
+<img src="/images/turntaking/semantic_base/silences.png" alt="" style='width: 50%'/>
+Silences
+
+
+
+<h3>Tokenized</h3>
+
+<img src="/images/turntaking/semantic_base/tok_top_freq.png" alt=""/>
+<img src="/images/turntaking/semantic_base/tok_top_sil.png" alt=""/>
+<img src="/images/turntaking/semantic_base/tok_top_dur.png" alt=""/>

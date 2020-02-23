@@ -54,12 +54,13 @@ Candidate bachchannels
 
 
 
+<h2> Previous Work </h2>
+
+<a href="https://arxiv.org/pdf/1706.01340.pdf" target="_blank">Yeah, Right, Uh-Huh: A Deep Learning Backchannel Predictor</a>
 
 
 
 <h2>Training samples </h2>
-
-
 Let user, <strong>U</strong>, be the active speaker system, <strong>S</strong>, be the one to generate a backchannel.
 
 Problems:
@@ -128,6 +129,44 @@ Learning Problems
 
 GRU - mfcc or melspec
 
+<div class='row'>
+  <img src="/images/turntaking/bmod/backchannels/training_sample_gru_varying_input_lengths.png" alt=""/>
+</div>
 
-<img src="/images/turntaking/bmod/backchannels/training_sample_gru_varying_input_lengths.png" alt=""/>
 A sample batch. During training the context is randomized,  0-20 frames are cut from the initial context size (not all positive label happens after the same number of frames).
+
+As seen from the images above, around 500 samples, we see the same behavior (more alike than we want) for backchannels and silences.
+
+
+<h1> End of Turn Detection/Prediciton </h1>
+
+While a user is active (speaking) the system should continuously predict when the turn will end. This information is relevant for a system to be able to plan action and to
+take smoother turns. 
+
+
+<h2> Previous Work </h2>
+
+<a href="http://sap.ist.i.kyoto-u.ac.jp/EN/bib/intl/LAL-ICMI19.pdf" target="_blank"> 
+  Smooth Turn-taking by a Robot Using an Online Continuous Model to Generate Turn-taking Cues Divesh
+</a>
+
+<ul>
+  <li>Train on transition relevant places, TRP</li>
+  <li>500ms before a TRP are positive labels</li>
+  <li>No prediction at the first second of an IPU or in between IPUs</li>
+</ul>
+
+<div class='row'>
+  <div class='column' style='flex: 70%'>
+    <img src="/images/turntaking/bmod/EOTDetection/smooth_tt_pred_example.png" alt="" style="width: 100%"/>
+  </div>
+  <div class='column' style='flex: 30%'>
+    <div class='row'>
+      <img src="/images/turntaking/bmod/eotdetection/smooth_tt_result.png" alt="" style="width: 100%"/>
+    </div>
+    <br>
+    <div class='row'>
+      <img src="/images/turntaking/bmod/eotdetection/smooth_tt_result_b.png" alt="" style="width: 100%"/>
+    </div>
+  </div>
+</div>
